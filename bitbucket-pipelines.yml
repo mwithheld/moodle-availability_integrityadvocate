@@ -25,5 +25,5 @@ pipelines:
            - ls -altrh
            - npm install
            - npm install -g grunt-cli 
-           - npm install xmldom
+           - npm install xmldom xpath semver fb-watchman fs
            - grunt --verbose
