@@ -19,7 +19,7 @@ pipelines:
            - node
            - apt
          script:
-           - aapt-get update && apt-get -qq install nodejs npm
+           - apt-get update && apt-get -qq install nodejs npm
            - cd yui/src/form/
            - curl -vvvv -s https://raw.githubusercontent.com/moodle/moodle/MOODLE_38_STABLE/Gruntfile.js --output Gruntfile.js
            - ls -altrh
