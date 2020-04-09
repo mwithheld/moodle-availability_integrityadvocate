@@ -18,7 +18,8 @@ pipelines:
          caches:
            - node
          script:
-           - cd yui/
+           - cd yui/src/form/
            - npm install
+           #Old <M2.9 Shifter method: - npm install shifter@0.4.6 -g
            - npm install -g grunt-cli
-           - grunt build
+           - grunt
