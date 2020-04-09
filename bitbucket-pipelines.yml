@@ -1,15 +1,5 @@
-# This is a sample build configuration for PHP.
-# Check our guides at https://confluence.atlassian.com/x/e8YWN for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
-#image: php:7.4.2
 image: node:8.17.0
 
-#definitions:
-#  caches:
-#    apt: /var/cache/apt
-    
 pipelines:
   custom: # Pipelines that are triggered manually
     build_js:
@@ -17,10 +7,7 @@ pipelines:
          name: "Build the JS modules"
          caches:
            - node
-           #- apt
          script:
-           #- apt-get update && apt-get -qq install nodejs
-           #- cd yui/src/form/
            - curl -vvvv -s https://raw.githubusercontent.com/moodle/moodle/MOODLE_38_STABLE/Gruntfile.js --output Gruntfile.js
            - ls -altrh
            - npm install
