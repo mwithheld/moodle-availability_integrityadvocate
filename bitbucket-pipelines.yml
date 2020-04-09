@@ -4,11 +4,11 @@
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
 #image: php:7.4.2
-image: node:13.12.0
+image: node:8.17.0
 
-definitions:
-  caches:
-    apt: /var/cache/apt
+#definitions:
+#  caches:
+#    apt: /var/cache/apt
     
 pipelines:
   custom: # Pipelines that are triggered manually
@@ -17,9 +17,9 @@ pipelines:
          name: "Build the JS modules"
          caches:
            - node
-           - apt
+           #- apt
          script:
-           - apt-get update && apt-get -qq install nodejs
+           #- apt-get update && apt-get -qq install nodejs
            #- cd yui/src/form/
            - curl -vvvv -s https://raw.githubusercontent.com/moodle/moodle/MOODLE_38_STABLE/Gruntfile.js --output Gruntfile.js
            - ls -altrh
