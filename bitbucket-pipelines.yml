@@ -19,9 +19,9 @@ pipelines:
            - node
          script:
            - cd yui/src/form/
-           - curl -vvvv -s https://raw.githubusercontent.com/moodle/moodle/MOODLE_38_STABLE/Gruntfile.js --output ./Gruntfile.js
+           - curl -vvvv -s https://raw.githubusercontent.com/moodle/moodle/MOODLE_38_STABLE/Gruntfile.js --output Gruntfile.js
            - ls -altrh
            - npm install
            #Old <M2.9 Shifter method: - npm install shifter@0.4.6 -g
            - npm install -g grunt-cli
-           - grunt --verbose --gruntfile ./Gruntfile.js
+           - grunt --verbose
