@@ -6,10 +6,10 @@
 #image: php:7.4.2
 image: node:13.12.0
 
-#definitions:
-#  caches:
-#    apt: /var/cache/apt
-
+definitions:
+  caches:
+    apt: /var/cache/apt
+    
 pipelines:
   custom: # Pipelines that are triggered manually
     build_js:
@@ -17,11 +17,12 @@ pipelines:
          name: "Build the JS modules"
          caches:
            - node
+           - apt
          script:
+           - apt-get -qq install nodejs npm
            - cd yui/src/form/
            - curl -vvvv -s https://raw.githubusercontent.com/moodle/moodle/MOODLE_38_STABLE/Gruntfile.js --output Gruntfile.js
            - ls -altrh
            - npm install
-           #Old <M2.9 Shifter method: - npm install shifter@0.4.6 -g
            - npm install -g grunt-cli
            - grunt --verbose
