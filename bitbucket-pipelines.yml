@@ -9,7 +9,7 @@ pipelines:
            - node
          script:
            - curl -vvvv -s https://raw.githubusercontent.com/moodle/moodle/MOODLE_38_STABLE/Gruntfile.js --output Gruntfile.js
-           - ls -altrh
            - npm install
            - npm install -g grunt-cli
            - grunt --verbose shifter
+           - ls -altrh
