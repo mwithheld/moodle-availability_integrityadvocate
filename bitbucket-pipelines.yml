@@ -12,3 +12,4 @@ pipelines:
            - npm install -g grunt-cli
            - grunt --verbose shifter
            - ls -altR yui/build/
+           - cat yui/build/moodle-availability_integrityadvocate-form/moodle-availability_integrityadvocate-form-min.js
