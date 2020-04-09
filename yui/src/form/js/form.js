@@ -22,29 +22,30 @@ M.availability_integrityadvocate.form.initInner = function(cms) {
 };
 
 /**
- * This function does the main work. It gets called after the user 
- * chooses to add an availability restriction of this type. You have 
+ * This function does the main work. It gets called after the user
+ * chooses to add an availability restriction of this type. You have
  * to return a YUI node representing the HTML for the plugin controls.
- * 
+ *
  * @param JSON json
  * @return YUI node representing the HTML for the plugin controls
  */
 M.availability_integrityadvocate.form.getNode = function(json) {
-    debug = true;
+    var debug = true;
     debug && console.log('M.availability_integrityadvocate.form.getNode'+'::Started with json=', json);
-    
+
     if(this.cms === undefined || this.cms.constructor !== Array) {
         this.cms = [];
     }
-    
+
     // Create HTML structure.
     var html = '<span class="col-form-label p-r-1"> ' + M.util.get_string('title', 'availability_integrityadvocate') + '</span>' +
                ' <span class="availability-group form-group"><label>' +
                 '<span class="accesshide">' + M.util.get_string('label_cm', 'availability_integrityadvocate') + ' </span>' +
                 '<select class="custom-select" name="cm" title="' + M.util.get_string('label_cm', 'availability_integrityadvocate') + '">' +
                 '<option value="0">' + M.util.get_string('choosedots', 'moodle') + '</option>';
+    var cm;
     for (var i = 0; i < this.cms.length; i++) {
-        var cm = this.cms[i];
+        cm = this.cms[i];
         // String has already been escaped using format_string.
         html += '<option value="' + cm.id + '">' + cm.name + '</option>';
     }
@@ -89,35 +90,35 @@ M.availability_integrityadvocate.form.getNode = function(json) {
  * to use within the JSON data in the form. Should be compatible
  * with the structure used in the __construct and save functions
  * within condition.php.
- * 
+ *
  * @param {type} value
  * @param {type} node
  * @return {undefined}
  */
 M.availability_integrityadvocate.form.fillValue = function(value, node) {
-    debug = true;
+    var debug = true;
     debug && console.log('M.availability_integrityadvocate.form.fillValue'+'::Started with value=', value);
     debug && console.log('M.availability_integrityadvocate.form.fillValue'+'::Started with node=', node);
-    
+
     value.cm = parseInt(node.one('select[name=cm]').get('value'), 10);
     value.e = parseInt(node.one('select[name=e]').get('value'), 10);
-    
+
     debug && console.log('M.availability_integrityadvocate.form.fillValue'+'::Finished with cm='+value.cm + '; e='+value.e);
 };
 
 /**
- * If the user has selected something invalid, this optional 
+ * If the user has selected something invalid, this optional
  * function can be included to report an error in the form. The
  * error will show immediately as a 'Please set' tag, and if the
  * user saves the form with an error still in place, they'll see
  * the actual error text.
- * 
+ *
  * @param {type} errors
  * @param {type} node
  * @return {undefined}
  */
 M.availability_integrityadvocate.form.fillErrors = function(errors, node) {
-    debug = true;
+    var debug = true;
     debug && console.log('M.availability_integrityadvocate.form.fillErrors'+'::Started with errors=', errors);
 
     var cmid = parseInt(node.one('select[name=cm]').get('value'), 10);
@@ -125,9 +126,9 @@ M.availability_integrityadvocate.form.fillErrors = function(errors, node) {
         debug && console.log('M.availability_integrityadvocate.form.fillValue'+'::Missing cmid');
         errors.push('availability_integrityadvocate:error_selectcmid');
     }
-    
+
     var e = parseInt(node.one('select[name=e]').get('value'), 10);
-    debug && console.log('M.availability_integrityadvocate.form.fillValue'+'::Got value for e='+e);
+    debug && console.log('M.availability_integrityadvocate.form.fillValue'+'::Got value for e=',e);
 //    if (((e === 2) || (e === 3))) {
 //        this.cms.forEach(function(cm) {
 //            if (cm.id === cmid) {
