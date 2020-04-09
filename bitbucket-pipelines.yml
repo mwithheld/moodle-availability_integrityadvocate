@@ -24,5 +24,6 @@ pipelines:
            - curl -vvvv -s https://raw.githubusercontent.com/moodle/moodle/MOODLE_38_STABLE/Gruntfile.js --output Gruntfile.js
            - ls -altrh
            - npm install
-           - npm install -g grunt-cli xmldom
+           - npm install -g grunt-cli 
+           - npm install xmldom
            - grunt --verbose
