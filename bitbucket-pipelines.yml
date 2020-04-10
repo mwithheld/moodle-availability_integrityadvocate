@@ -14,14 +14,15 @@ pipelines:
            - node
            - apt
          script:
-           - apt-get update && apt-get -qq install zip
+           - apt-get update && apt-get -qq install zip rsync
+           - mkdir -p /tmp/iaparent/integrityadvocate
+           - rsync -av ./ /tmp/iaparent/integrityadvocate --exclude .git/ --exclude screenshots/ --exclude *.zip --exclude *.pl --exclude Makefile --exclude bitbucket-pipelines.yml --exclude amd/src --exclude .git/ --exclude node_modules/ --exclude .gitignore --exclude Gruntfile.js --exclude *.yml --exclude *.json
+           - cd /tmp/iaparent/integrityadvocate
            - npm install
            - npm install -g grunt-cli
            - grunt --verbose shifter
            #- ls -altR yui/build/
-           #- cat yui/build/moodle-availability_integrityadvocate-form/moodle-availability_integrityadvocate-form-min.js
+           #- cat yui/build/${BITBUCKET_REPO_SLUG}-form/${BITBUCKET_REPO_SLUG}-form-min.js
            #- find ./ \( -type d -name .git -prune \) -o -type f -name '*.php' -print0 |  xargs -0 sed -i 's#$debug = true;#$debug = false;#g'
-           - zip -r9 ${BITBUCKET_CLONE_DIR}/${BITBUCKET_REPO_SLUG}.zip ./ -x .git/**\* node_modules/**\* .gitignore Gruntfile.js \*.yml \*.json
-           - curl -vvvv -s -u "${BB_AUTH_STRING}" -X POST "https://${BB_AUTH_STRING}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files="@${BITBUCKET_CLONE_DIR}/${BITBUCKET_REPO_SLUG}.zip"
-
-
+           - zip -r9 ${BITBUCKET_CLONE_DIR}/${BITBUCKET_REPO_SLUG}.zip /tmp/iaparent/
+           #- curl -vvvv -s -u "${BB_AUTH_STRING}" -X POST "https://${BB_AUTH_STRING}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files="@${BITBUCKET_CLONE_DIR}/${BITBUCKET_REPO_SLUG}.zip"
