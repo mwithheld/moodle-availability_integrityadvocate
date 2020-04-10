@@ -1,8 +1,10 @@
-Availability condition to accompany the block_integrityadvocate plugin.
+Availability condition to accompany the moodle-block_integrityadvocate plugin.
 
-For requirements, see the block_integrityadvocate plugin.
+For requirements, see the moodle-block_integrityadvocate plugin.
 
 ## Installation ##
+This plugin *REQUIRES* the moodle-block_integrityadvocate plugin is installed and *active in an activity* in the current course.
+
 Login to your Moodle site as an admin, navigate to Site administration > Plugins > Install plugins, upload the zip file and install it.
 
 **or**
