@@ -23,6 +23,6 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 202040800;
+$plugin->version = 202041000;
 $plugin->requires = 2017111300; // Moodle 3.4.0.
 $plugin->component = 'availability_integrityadvocate';
