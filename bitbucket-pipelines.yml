@@ -2,8 +2,9 @@ image: node:8.17.0
 
 definitions:
   caches:
-    node: node_modules
-    
+#    node: node_modules
+    apt: /var/cache/apt
+
 pipelines:
   custom: # Pipelines that are triggered manually
     build_js:
@@ -11,7 +12,9 @@ pipelines:
          name: "Build the JS modules"
          caches:
            - node
+           - apt
          script:
+           - apt-get update && apt-get -qq install zip
            - npm install
            - npm install -g grunt-cli
            - grunt --verbose shifter
