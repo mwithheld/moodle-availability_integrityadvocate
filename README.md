@@ -8,4 +8,9 @@ Login to your Moodle site as an admin, navigate to Site administration > Plugins
 **or**
 
 1. Copy the integrityadvocate directory into the availability/condition/ directory of your Moodle instance;
-2. Browse to the Moodle admin notifications page.
+2. Browse to the Moodle admin notifications page and step through the installer.
+
+## Setup ##
+Once installed, you can use it like any other availability condition under activity settigs > Restrict access.
+
+Ref https://docs.moodle.org/38/en/Restrict_access
