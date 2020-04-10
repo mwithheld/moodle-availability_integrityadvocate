@@ -179,8 +179,7 @@ class condition extends \core_availability\condition {
         if (is_string($useriaresults)) {
             $msg = 'Error getting IntegrityAdvocate results: ' . $useriaresults;
             error_log(__FILE__ . '::' . __FUNCTION__ . "::{$msg}");
-            echo get_string($useriaresults, INTEGRITYADVOCATE_BLOCKNAME);
-
+            //echo get_string($useriaresults, INTEGRITYADVOCATE_BLOCKNAME);
             // Always deny the user access.
             return false;
         }
