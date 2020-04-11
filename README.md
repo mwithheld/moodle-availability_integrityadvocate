@@ -1,3 +1,5 @@
+# IntegrityAdvocate Moodle availability restriction
+
 Availability condition to accompany the moodle-block_integrityadvocate plugin.
 
 For requirements, see the moodle-block_integrityadvocate plugin.
