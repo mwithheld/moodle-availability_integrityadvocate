@@ -157,7 +157,6 @@ class condition extends \core_availability\condition {
 
         $modinfo = $info->get_modinfo();
 
-
         if (!array_key_exists($this->cmid, $modinfo->cms)) {
             // If the cmid cannot be found, always return false regardless of the
             // condition or $not state. (Will be displayed in the information message.)
@@ -179,7 +178,7 @@ class condition extends \core_availability\condition {
         if (is_string($useriaresults)) {
             $msg = 'Error getting IntegrityAdvocate results: ' . $useriaresults;
             error_log(__FILE__ . '::' . __FUNCTION__ . "::{$msg}");
-            //echo get_string($useriaresults, INTEGRITYADVOCATE_BLOCKNAME);
+            // Disabled on purpose: echo get_string($useriaresults, INTEGRITYADVOCATE_BLOCKNAME);.
             // Always deny the user access.
             return false;
         }
@@ -192,7 +191,7 @@ class condition extends \core_availability\condition {
             return false;
         }
 
-        // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at $useriaresults=' . print_r($useriaresults, true));
+        // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at $useriaresults=' . print_r($useriaresults, true));.
         $iaparticipantdata = $useriaresults[0]['ia_participant_data'];
 
         switch ($this->expectedstatus) {
@@ -214,33 +213,9 @@ class condition extends \core_availability\condition {
             $allow = !$allow;
         }
 
-
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::About to return $allow=' . $allow);
         return $allow;
     }
-
-//    /**
-//     * Returns a more readable keyword corresponding to a completion state.
-//     *
-//     * Used to make lang strings easier to read.
-//     *
-//     * @param int $completionstate COMPLETION_xx constant
-//     * @return string Readable keyword
-//     */
-//    protected static function get_lang_string_keyword($completionstate) {
-//        switch ($completionstate) {
-//            case COMPLETION_INCOMPLETE:
-//                return 'incomplete';
-//            case COMPLETION_COMPLETE:
-//                return 'complete';
-//            case COMPLETION_COMPLETE_PASS:
-//                return 'complete_pass';
-//            case COMPLETION_COMPLETE_FAIL:
-//                return 'complete_fail';
-//            default:
-//                throw new \coding_exception('Unexpected completion state: ' . $completionstate);
-//        }
-//    }
 
     /**
      * Returns the information that shows about the condition on editing screens.

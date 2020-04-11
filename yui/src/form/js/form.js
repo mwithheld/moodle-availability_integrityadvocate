@@ -17,7 +17,7 @@ M.availability_integrityadvocate.form = Y.Object(M.core_availability.plugin);
  * @method initInner
  * @param {Array} cms Array of objects containing cmid => name
  */
-M.availability_integrityadvocate.form.initInner = function(cms) {
+M.availability_integrityadvocate.form.initInner = function (cms) {
     this.cms = cms;
 };
 
@@ -29,20 +29,20 @@ M.availability_integrityadvocate.form.initInner = function(cms) {
  * @param JSON json
  * @return YUI node representing the HTML for the plugin controls
  */
-M.availability_integrityadvocate.form.getNode = function(json) {
+M.availability_integrityadvocate.form.getNode = function (json) {
     var debug = true;
-    debug && console.log('M.availability_integrityadvocate.form.getNode'+'::Started with json=', json);
+    debug && console.log('M.availability_integrityadvocate.form.getNode' + '::Started with json=', json);
 
-    if(this.cms === undefined || this.cms.constructor !== Array) {
+    if (this.cms === undefined || this.cms.constructor !== Array) {
         this.cms = [];
     }
 
     // Create HTML structure.
     var html = '<span class="col-form-label p-r-1"> ' + M.util.get_string('title', 'availability_integrityadvocate') + '</span>' +
-               ' <span class="availability-group form-group"><label>' +
-                '<span class="accesshide">' + M.util.get_string('label_cm', 'availability_integrityadvocate') + ' </span>' +
-                '<select class="custom-select" name="cm" title="' + M.util.get_string('label_cm', 'availability_integrityadvocate') + '">' +
-                '<option value="0">' + M.util.get_string('choosedots', 'moodle') + '</option>';
+            ' <span class="availability-group form-group"><label>' +
+            '<span class="accesshide">' + M.util.get_string('label_cm', 'availability_integrityadvocate') + ' </span>' +
+            '<select class="custom-select" name="cm" title="' + M.util.get_string('label_cm', 'availability_integrityadvocate') + '">' +
+            '<option value="0">' + M.util.get_string('choosedots', 'moodle') + '</option>';
     var cm;
     for (var i = 0; i < this.cms.length; i++) {
         cm = this.cms[i];
@@ -71,7 +71,7 @@ M.availability_integrityadvocate.form.getNode = function(json) {
     if (!M.availability_integrityadvocate.form.addedEvents) {
         M.availability_integrityadvocate.form.addedEvents = true;
         var root = Y.one('.availability-field');
-        root.delegate('change', function() {
+        root.delegate('change', function () {
             // The key point is this update call. This call will update
             // the JSON data in the hidden field in the form, so that it
             // includes the new value of the checkbox.
@@ -95,15 +95,15 @@ M.availability_integrityadvocate.form.getNode = function(json) {
  * @param {type} node
  * @return {undefined}
  */
-M.availability_integrityadvocate.form.fillValue = function(value, node) {
+M.availability_integrityadvocate.form.fillValue = function (value, node) {
     var debug = true;
-    debug && console.log('M.availability_integrityadvocate.form.fillValue'+'::Started with value=', value);
-    debug && console.log('M.availability_integrityadvocate.form.fillValue'+'::Started with node=', node);
+    debug && console.log('M.availability_integrityadvocate.form.fillValue' + '::Started with value=', value);
+    debug && console.log('M.availability_integrityadvocate.form.fillValue' + '::Started with node=', node);
 
     value.cm = parseInt(node.one('select[name=cm]').get('value'), 10);
     value.e = parseInt(node.one('select[name=e]').get('value'), 10);
 
-    debug && console.log('M.availability_integrityadvocate.form.fillValue'+'::Finished with cm='+value.cm + '; e='+value.e);
+    debug && console.log('M.availability_integrityadvocate.form.fillValue' + '::Finished with cm=' + value.cm + '; e=' + value.e);
 };
 
 /**
@@ -117,30 +117,17 @@ M.availability_integrityadvocate.form.fillValue = function(value, node) {
  * @param {type} node
  * @return {undefined}
  */
-M.availability_integrityadvocate.form.fillErrors = function(errors, node) {
+M.availability_integrityadvocate.form.fillErrors = function (errors, node) {
     var debug = true;
-    debug && console.log('M.availability_integrityadvocate.form.fillErrors'+'::Started with errors=', errors);
+    debug && console.log('M.availability_integrityadvocate.form.fillErrors' + '::Started with errors=', errors);
 
     var cmid = parseInt(node.one('select[name=cm]').get('value'), 10);
     if (cmid === 0) {
-        debug && console.log('M.availability_integrityadvocate.form.fillValue'+'::Missing cmid');
+        debug && console.log('M.availability_integrityadvocate.form.fillValue' + '::Missing cmid');
         errors.push('availability_integrityadvocate:error_selectcmid');
     }
 
     var e = parseInt(node.one('select[name=e]').get('value'), 10);
-    debug && console.log('M.availability_integrityadvocate.form.fillValue'+'::Got value for e=',e);
-//    if (((e === 2) || (e === 3))) {
-//        this.cms.forEach(function(cm) {
-//            if (cm.id === cmid) {
-//                if (cm.completiongradeitemnumber === null) {
-//                  //Add an error. This is
-//                    // passing your component name (availability_name) and the
-//                    // name of a string within your lang file (error_message)
-//                    // which will be shown if they submit the form.
-//                    errors.push('availability_integrityadvocate:error_selectcmidpassfail');
-//                }
-//            }
-//        });
-//    }
-    debug && console.log('M.availability_integrityadvocate.form.fillErrors'+'::Finished');
+    debug && console.log('M.availability_integrityadvocate.form.fillValue' + '::Got value for e=', e);
+    debug && console.log('M.availability_integrityadvocate.form.fillErrors' + '::Finished');
 };
