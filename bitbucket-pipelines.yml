@@ -6,8 +6,10 @@ definitions:
     apt: /var/cache/apt
 
 pipelines:
-  custom: # Pipelines that are triggered manually
-    build_js:
+  #custom: # Pipelines that are triggered manually
+    #build_js:
+  tags:
+    '*':
       - step:
          name: "Build the JS modules"
          caches:
