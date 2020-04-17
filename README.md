@@ -1,8 +1,11 @@
 # IntegrityAdvocate Moodle availability restriction
 
-Availability condition to accompany the moodle-block_integrityadvocate plugin.
+Integrity Advocate does identity verification & participation monitoring. 
+This availability restriction (condition) accompanies the moodle-block_integrityadvocate plugin to prevent access to a course module depending on the IA results in another module.
 
-For requirements, see the moodle-block_integrityadvocate plugin.
+## Requirements ##
+For requirements, see the moodle-block_integrityadvocate plugin
+https://bitbucket.org/mwebv/moodle-block_integrityadvocate/src/master/README.md
 
 ## Installation ##
 This plugin *REQUIRES* the moodle-block_integrityadvocate plugin is installed and *active in an activity* in the current course.
