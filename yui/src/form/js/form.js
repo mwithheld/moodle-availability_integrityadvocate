@@ -17,7 +17,7 @@ M.availability_integrityadvocate.form = Y.Object(M.core_availability.plugin);
  * @method initInner
  * @param {Array} cms Array of objects containing cmid => name
  */
-M.availability_integrityadvocate.form.initInner = function (cms) {
+M.availability_integrityadvocate.form.initInner = function(cms) {
     this.cms = cms;
 };
 
@@ -29,7 +29,7 @@ M.availability_integrityadvocate.form.initInner = function (cms) {
  * @param JSON json
  * @return YUI node representing the HTML for the plugin controls
  */
-M.availability_integrityadvocate.form.getNode = function (json) {
+M.availability_integrityadvocate.form.getNode = function(json) {
     var debug = true;
     debug && console.log('M.availability_integrityadvocate.form.getNode' + '::Started with json=', json);
 
@@ -71,7 +71,7 @@ M.availability_integrityadvocate.form.getNode = function (json) {
     if (!M.availability_integrityadvocate.form.addedEvents) {
         M.availability_integrityadvocate.form.addedEvents = true;
         var root = Y.one('.availability-field');
-        root.delegate('change', function () {
+        root.delegate('change', function() {
             // The key point is this update call. This call will update
             // the JSON data in the hidden field in the form, so that it
             // includes the new value of the checkbox.
@@ -95,7 +95,7 @@ M.availability_integrityadvocate.form.getNode = function (json) {
  * @param {type} node
  * @return {undefined}
  */
-M.availability_integrityadvocate.form.fillValue = function (value, node) {
+M.availability_integrityadvocate.form.fillValue = function(value, node) {
     var debug = true;
     debug && console.log('M.availability_integrityadvocate.form.fillValue' + '::Started with value=', value);
     debug && console.log('M.availability_integrityadvocate.form.fillValue' + '::Started with node=', node);
@@ -117,7 +117,7 @@ M.availability_integrityadvocate.form.fillValue = function (value, node) {
  * @param {type} node
  * @return {undefined}
  */
-M.availability_integrityadvocate.form.fillErrors = function (errors, node) {
+M.availability_integrityadvocate.form.fillErrors = function(errors, node) {
     var debug = true;
     debug && console.log('M.availability_integrityadvocate.form.fillErrors' + '::Started with errors=', errors);
 
