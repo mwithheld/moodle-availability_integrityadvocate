@@ -57,16 +57,19 @@ class frontend extends \core_availability\frontend {
     }
 
     /**
-     * Parameters here which will be passed into the JavaScript init method.
+     * Gets additional parameters for the plugin's initInner function.
      *
-     * @param type $course
-     * @param \cm_info $cm
-     * @param \section_info $section
-     * @return type
+     * Default returns no parameters.
+     *
+     * @param \stdClass $course Course object
+     * @param \cm_info $cm Course-module currently being edited (null if none)
+     * @param \section_info $section Section currently being edited (null if none)
+     * @return array Array of parameters for the JavaScript function
      */
     protected function get_javascript_init_params($course, \cm_info $cm = null, \section_info $section = null) {
         $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . print_r($section, true));
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id)
+                                    ? $cm->id : '') . '; $section=' . print_r($section, true));
 
         // Use cached result if available. The cache is just because we call it
         // twice (once from allow_add) so it's nice to avoid doing all the
@@ -139,7 +142,8 @@ class frontend extends \core_availability\frontend {
      */
     protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
         $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . print_r($section, true));
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id)
+                                    ? $cm->id : '') . '; $section=' . print_r($section, true));
 
         // Check if there's at least one other module with completion info.
         $params = $this->get_javascript_init_params($course, $cm, $section);

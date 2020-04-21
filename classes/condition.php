@@ -128,13 +128,27 @@ class condition extends \core_availability\condition {
     }
 
     /**
-     * Check whether the condition is true or not for the user specified in $userid.
+     * Determines whether a particular item is currently available
+     * according to this availability condition.
      *
-     * @param bool $not Set to true to negate the condition.
-     * @param \core_availability\info $info Availability info
-     * @param type $grabthelot
-     * @param type $userid The user id to check.
-     * @return boolean true if available.
+     * If implementations require a course or modinfo, they should use
+     * the get methods in $info.
+     *
+     * The $not option is potentially confusing. This option always indicates
+     * the 'real' value of NOT. For example, a condition inside a 'NOT AND'
+     * group will get this called with $not = true, but if you put another
+     * 'NOT OR' group inside the first group, then a condition inside that will
+     * be called with $not = false. We need to use the real values, rather than
+     * the more natural use of the current value at this point inside the tree,
+     * so that the information displayed to users makes sense.
+     *
+     * @param bool $not Set true if we are inverting the condition
+     * @param info $info Item we're checking
+     * @param bool $grabthelot Performance hint: if true, caches information
+     *   required for all course-modules, to make the front page and similar
+     *   pages work more quickly (works only for current user)
+     * @param int $userid User ID to check availability for
+     * @return bool True if available
      */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
         $debug = true;
@@ -217,14 +231,27 @@ class condition extends \core_availability\condition {
     }
 
     /**
-     * Returns the information that shows about the condition on editing screens.
-     * Usually it is similar to the information shown if the user doesn't
-     * meet the condition (it does not depend on the current user).
+     * Obtains a string describing this restriction (whether or not
+     * it actually applies). Used to obtain information that is displayed to
+     * students if the activity is not available to them, and for staff to see
+     * what conditions are.
      *
-     * @param type $full
-     * @param type $not
-     * @param \core_availability\info $info
-     * @return type
+     * The $full parameter can be used to distinguish between 'staff' cases
+     * (when displaying all information about the activity) and 'student' cases
+     * (when displaying only conditions they don't meet).
+     *
+     * If implementations require a course or modinfo, they should use
+     * the get methods in $info.
+     *
+     * The special string <AVAILABILITY_CMNAME_123/> can be returned, where
+     * 123 is any number. It will be replaced with the correctly-formatted
+     * name for that activity.
+     *
+     * @param bool $full Set true if this is the 'full information' view
+     * @param bool $not Set true if we are inverting the condition
+     * @param info $info Item we're checking
+     * @return string Information string (for admin) about all restrictions on
+     *   this item
      */
     public function get_description($full, $not, \core_availability\info $info) {
         $debug = true;
@@ -267,11 +294,10 @@ class condition extends \core_availability\condition {
     }
 
     /**
-     * Used for unit testing.  Just make a short string representation
-     * of the values of the condition suitable for developers.
+     * Obtains a representation of the options of this condition as a string,
+     * for debugging.
      *
-     * @return type
-     * @throws \coding_exception
+     * @return string Text representation of parameters
      */
     protected function get_debug_string() {
         switch ($this->expectedstatus) {
@@ -287,6 +313,17 @@ class condition extends \core_availability\condition {
         return 'cm' . $this->cmid . ' ' . $type;
     }
 
+    /**
+     * Called during restore (near end of restore). Updates any necessary ids
+     * and writes the updated tree to the database. May output warnings if
+     * necessary (e.g. if a course-module cannot be found after restore).
+     *
+     * @param string $restoreid Restore identifier
+     * @param int $courseid Target course id
+     * @param \base_logger $logger Logger for any warnings
+     * @param int $dateoffset Date offset to be added to any dates (0 = none)
+     * @param \base_task $task Restore task
+     */
     public function update_after_restore($restoreid, $courseid, \base_logger $logger, $name) {
         global $DB;
 
@@ -362,6 +399,18 @@ class condition extends \core_availability\condition {
         self::$modsusedincondition = array();
     }
 
+    /**
+     * In rare cases the system may want to change all references to one ID
+     * (e.g. one course-module ID) to another one, within a course. This
+     * function does that for the conditional availability data for all
+     * modules and sections on the course.
+     *
+     * @param int|\stdClass $courseorid Course id or object
+     * @param string $table Table name e.g. 'course_modules'
+     * @param int $oldid Previous ID
+     * @param int $newid New ID
+     * @return bool True if anything changed, otherwise false
+     */
     public function update_dependency_id($table, $oldid, $newid) {
         $debug = true;
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::Started with \$table={$table}; \$oldid={$oldid}; \$newid={$newid}");
