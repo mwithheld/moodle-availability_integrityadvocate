@@ -132,7 +132,6 @@ class frontend extends \core_availability\frontend {
      * groupings on the course. This helps to simplify the user interface.
      * If you don't include this function, it will appear.
      *
-     * @global stdClass $CFG The global CFG object
      * @param stdClass $course The course to add
      * @param \cm_info $cm Optional CourseModule info
      * @param \section_info $section Optional Section info
