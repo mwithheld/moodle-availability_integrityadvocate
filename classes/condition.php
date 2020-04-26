@@ -59,7 +59,7 @@ class condition extends \core_availability\condition {
      * @throws \coding_exception If invalid data structure.
      */
     public function __construct(\stdClass $structure) {
-        $debug = true;
+        $debug = false;
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $structure=' . print_r($structure, true));
 
         // Get cmid.
@@ -152,79 +152,106 @@ class condition extends \core_availability\condition {
      */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
         $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $not=' . $not . /* '; info=' . print_r($info, true) . */ '; $grabthelot=' . $grabthelot .
-                        '; $userid=' . $userid);
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $not=' . $not . '; md5(info)=' . md5(serialize($info)) . '; $grabthelot=' . $grabthelot . '; $userid=' . $userid);
         // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $info=' . print_r($info, true));.
+        // This valus is non-null when $allow should be forced to true or false.
+        $allowoverridden = null;
+
+        // Cache responses in a per-request cache so multiple calls in one request don't repeat the same work.
+        $cache = \cache::make(__NAMESPACE__, 'perrequest');
+        $cachekey = __CLASS__ . ':' . __FUNCTION__ . md5(json_encode($info) . $grabthelot . $userid);
+
+        // The cached value is serialized so we can store false and distinguish it from when cache lookup fails.
+        $cachedvalue = $cache->get($cachekey);
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $cachedvalue=' . print_r($cachedvalue, true));
+        if ($cachedvalue) {
+            $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Found a cached value, so return that');
+            return unserialize($cachedvalue);
+        }
 
         require_once(dirname(__FILE__, 2) . '/locallib.php');
         if (!availability_integrityadvocate_is_known_block_type()) {
             $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::block_integrityadvocate not found, so condition availability_integrityadvocate is not available');
             // If block_integrityadvocate does not exist, always allow the user access.
-            return true;
+            $allowoverridden = true;
         }
 
-        $modulecontext = $info->get_context();
-        if ($modulecontext->contextlevel !== CONTEXT_MODULE) {
-            $msg = 'Called with invalid contextlevel=' . $modulecontext->contextlevel;
-            error_log(__FILE__ . '::' . __FUNCTION__ . "::$msg");
-            throw new Exception($msg);
+        if (is_null($allowoverridden)) {
+            $modulecontext = $info->get_context();
+            if ($modulecontext->contextlevel !== CONTEXT_MODULE) {
+                $msg = 'Called with invalid contextlevel=' . $modulecontext->contextlevel;
+                error_log(__FILE__ . '::' . __FUNCTION__ . "::$msg");
+                throw new Exception($msg);
+            }
+
+            $modinfo = $info->get_modinfo();
+
+            if (!array_key_exists($this->cmid, $modinfo->cms)) {
+                // If the cmid cannot be found, always return false regardless of the...
+                // Condition or $not state. (Will be displayed in the information message).
+                $allowoverridden = false;
+            }
         }
 
-        $modinfo = $info->get_modinfo();
+        if (is_null($allowoverridden)) {
+            // Get the IA data so we can decide whether to show the activity to the user.
+            $course = $modinfo->get_course();
+            $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $course->id=' . $course->id);
 
-        if (!array_key_exists($this->cmid, $modinfo->cms)) {
-            // If the cmid cannot be found, always return false regardless of the...
-            // Condition or $not state. (Will be displayed in the information message).
-            return false;
+            $othercm = $modinfo->get_cm($this->cmid);
+            $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $othercm with id=' . $othercm->id . '; name=' . $othercm->name);
+            // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $othercm=' . print_r($othercm, true));.
+
+            $useriaresults = \block_integrityadvocate_get_course_user_ia_data($course, $userid, $othercm->context->id);
+            // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $useriaresults=' . print_r($useriaresults, true));
+            //
+            // If we get back a string we got an error, so display it and quit.
+            if (is_string($useriaresults)) {
+                $msg = 'Error getting IntegrityAdvocate results: ' . $useriaresults;
+                error_log(__FILE__ . '::' . __FUNCTION__ . "::{$msg}");
+                // Always deny the user access.
+                $allowoverridden = false;
+            }
         }
 
-        // Get the IA data so we can decide whether to show the activity to the user.
-        $course = $modinfo->get_course();
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $course->id=' . $course->id);
-
-        $othercm = $modinfo->get_cm($this->cmid);
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $othercm with id=' . $othercm->id . '; name=' . $othercm->name);
-        // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $othercm=' . print_r($othercm, true));.
-
-        $useriaresults = \block_integrityadvocate_get_course_user_ia_data($course, $userid, $othercm->context->id);
-        // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $useriaresults=' . print_r($useriaresults, true));
-        //
-        // If we get back a string we got an error, so display it and quit.
-        if (is_string($useriaresults)) {
-            $msg = 'Error getting IntegrityAdvocate results: ' . $useriaresults;
-            error_log(__FILE__ . '::' . __FUNCTION__ . "::{$msg}");
-            // Always deny the user access.
-            return false;
-        }
-
-        if (is_array($useriaresults) && empty($useriaresults)) {
+        if (is_null($allowoverridden) && is_array($useriaresults) && empty($useriaresults)) {
             $msg = 'We got back no IA results at all for this user in this module';
             error_log(__FILE__ . '::' . __FUNCTION__ . "::{$msg}");
 
             // Always deny the user access.
-            return false;
+            $allowoverridden = false;
         }
 
-        // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at $useriaresults=' . print_r($useriaresults, true));.
-        $iaparticipantdata = $useriaresults[0]['ia_participant_data'];
+        if (is_null($allowoverridden)) {
+            // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at $useriaresults=' . print_r($useriaresults, true));.
+            $iaparticipantdata = $useriaresults[0]['ia_participant_data'];
 
-        switch ($this->expectedstatus) {
-            case INTEGRITYADVOCATE_STATUS_VALID:
-                $allow = $iaparticipantdata->ReviewStatus === INTEGRITYADVOCATE_API_STATUS_VALID;
-                $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require ReviewStatus=Valid, did it?=' . $allow);
-                break;
-            case INTEGRITYADVOCATE_STATUS_INVALID:
-                $allow = stripos($iaparticipantdata->ReviewStatus, 'invalid') === 0;
-                $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require ReviewStatus=~invalid, did it?=' . $allow);
-                break;
-            default:
-                $msg = 'Invalid $this->expectedstatus=' . $this->expectedstatus;
-                error_log(__FILE__ . '::' . __FUNCTION__ . "::$msg");
-                throw new Exception($msg);
+            switch ($this->expectedstatus) {
+                case INTEGRITYADVOCATE_STATUS_VALID:
+                    $allow = $iaparticipantdata->ReviewStatus === INTEGRITYADVOCATE_API_STATUS_VALID;
+                    $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require ReviewStatus=Valid, did it?=' . $allow);
+                    break;
+                case INTEGRITYADVOCATE_STATUS_INVALID:
+                    $allow = stripos($iaparticipantdata->ReviewStatus, 'invalid') === 0;
+                    $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require ReviewStatus=~invalid, did it?=' . $allow);
+                    break;
+                default:
+                    $msg = 'Invalid $this->expectedstatus=' . $this->expectedstatus;
+                    error_log(__FILE__ . '::' . __FUNCTION__ . "::$msg");
+                    throw new Exception($msg);
+            }
         }
 
-        if ($not) {
+        if (is_null($allowoverridden) && $not) {
             $allow = !$allow;
+        }
+
+        if (!is_null($allowoverridden)) {
+            $allow = $allowoverridden;
+        }
+
+        if (!$cache->set($cachekey, serialize($allow))) {
+            throw new Exception('Failed to set value in perrequest cache');
         }
 
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::About to return $allow=' . $allow);
@@ -258,6 +285,17 @@ class condition extends \core_availability\condition {
         $debug = true;
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $full=' . print_r($full, true) . ' $not=' . $not /* . '; info=' . print_r($info, true) */);
 
+        // Cache responses in a per-request cache so multiple calls in one request don't repeat the same work.
+        $cache = \cache::make(__NAMESPACE__, 'perrequest');
+        $cachekey = __CLASS__ . ':' . __FUNCTION__ . md5($full . $not . json_encode($info));
+
+        $cachedvalue = $cache->get($cachekey);
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $cachedvalue=' . print_r($cachedvalue, true));
+        if ($cachedvalue) {
+            $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Found a cached value, so return that');
+            return $cachedvalue;
+        }
+
         // Get name for module.
         $modinfo = $info->get_modinfo();
         if (!array_key_exists($this->cmid, $modinfo->cms)) {
@@ -290,6 +328,10 @@ class condition extends \core_availability\condition {
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::About to get_string($str)");
         $str = get_string($str, 'availability_integrityadvocate', $modname);
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::Got str={$str}");
+
+        if (!$cache->set($cachekey, $str)) {
+            throw new Exception('Failed to set value in perrequest cache');
+        }
 
         return $str;
     }

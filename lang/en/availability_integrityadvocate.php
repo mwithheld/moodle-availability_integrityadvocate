@@ -25,6 +25,7 @@
 $string['title'] = 'IntegrityAdvocate';
 
 // Other strings go here.
+$string['cachedef_perrequest'] = 'Remember values during a single request';
 $string['description'] = 'Require ' . $string['title'] . ' proctor completion';
 $string['error_selectcmid'] = 'You must select an activity for the completion condition.';
 $string['label_cm'] = 'Activity or resource';
