@@ -152,7 +152,8 @@ class condition extends \core_availability\condition {
      */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
         $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $not=' . $not . /* '; info=' . print_r($info, true) . */ '; $grabthelot=' . $grabthelot . '; $userid=' . $userid);
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $not=' . $not . /* '; info=' . print_r($info, true) . */ '; $grabthelot=' . $grabthelot .
+                        '; $userid=' . $userid);
         // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $info=' . print_r($info, true));.
 
         require_once(dirname(__FILE__, 2) . '/locallib.php');
@@ -177,7 +178,7 @@ class condition extends \core_availability\condition {
             return false;
         }
 
-        // Get the IA data.
+        // Get the IA data so we can decide whether to show the activity to the user.
         $course = $modinfo->get_course();
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $course->id=' . $course->id);
 
