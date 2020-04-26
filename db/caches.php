@@ -29,5 +29,7 @@ $definitions = array(
         'simplekeys' => true,
         'simpledata' => true,
         'staticacceleration' => true,
+        'staticaccelerationsize' => 5,
+        'canuselocalstore' => true,
     ),
 );
