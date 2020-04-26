@@ -283,7 +283,7 @@ class condition extends \core_availability\condition {
      */
     public function get_description($full, $not, \core_availability\info $info) {
         $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $full=' . print_r($full, true) . ' $not=' . $not /* . '; info=' . print_r($info, true) */);
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $full=' . print_r($full, true) . '; $not=' . $not . '; md5(info)=' . md5($info));
 
         // Cache responses in a per-request cache so multiple calls in one request don't repeat the same work.
         $cache = \cache::make(__NAMESPACE__, 'perrequest');
@@ -303,7 +303,7 @@ class condition extends \core_availability\condition {
         } else {
             $modname = '<AVAILABILITY_CMNAME_' . $modinfo->cms[$this->cmid]->id . '/>';
         }
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::Got=\$modname={$modname}; \$this->expectedstatus={$this->expectedstatus}");
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::Got \$modname={$modname}; \$this->expectedstatus={$this->expectedstatus}");
 
         // Work out which lang string to use.
         switch ($this->expectedstatus) {
