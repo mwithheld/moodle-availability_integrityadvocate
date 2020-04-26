@@ -74,7 +74,7 @@ class frontend extends \core_availability\frontend {
         // Use cached result if available. The cache is just because we call it
         // twice (once from allow_add) so it's nice to avoid doing all the
         // print_string calls twice.
-        $cachekey = $course->id . ',' . ($cm ? $cm->id : '') . ($section ? $section->id : '');
+        $cachekey = $course->id . '_' . ($cm ? $cm->id : '') . '_' . ($section ? $section->id : '');
         if ($debug || $cachekey !== $this->cachekey) {
             if (!availability_integrityadvocate_is_known_block_type()) {
                 $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::block_integrityadvocate must be installed and visible');

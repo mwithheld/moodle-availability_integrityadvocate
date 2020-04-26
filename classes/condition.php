@@ -159,7 +159,7 @@ class condition extends \core_availability\condition {
 
         // Cache responses in a per-request cache so multiple calls in one request don't repeat the same work.
         $cache = \cache::make(__NAMESPACE__, 'perrequest');
-        $cachekey = __CLASS__ . ':' . __FUNCTION__ . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR) . $grabthelot . $userid);
+        $cachekey = __CLASS__ . '_' . __FUNCTION__ . '_' . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR) . $grabthelot . $userid);
 
         // The cached value is serialized so we can store false and distinguish it from when cache lookup fails.
         $cachedvalue = $cache->get($cachekey);
@@ -288,7 +288,7 @@ class condition extends \core_availability\condition {
 
         // Cache responses in a per-request cache so multiple calls in one request don't repeat the same work.
         $cache = \cache::make(__NAMESPACE__, 'perrequest');
-        $cachekey = __CLASS__ . ':' . __FUNCTION__ . sha1($full . $not . json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR));
+        $cachekey = __CLASS__ . '_' . __FUNCTION__ . '_' . sha1($full . $not . json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR));
 
         $cachedvalue = $cache->get($cachekey);
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $cachedvalue=' . print_r($cachedvalue, true));
