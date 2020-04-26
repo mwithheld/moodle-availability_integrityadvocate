@@ -152,14 +152,14 @@ class condition extends \core_availability\condition {
      */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
         $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $not=' . $not . '; md5(info)=' . md5(serialize($info)) . '; $grabthelot=' . $grabthelot . '; $userid=' . $userid);
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $not=' . $not . '; sha1(info)=' . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)) . '; $grabthelot=' . $grabthelot . '; $userid=' . $userid);
         // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $info=' . print_r($info, true));.
         // This valus is non-null when $allow should be forced to true or false.
         $allowoverridden = null;
 
         // Cache responses in a per-request cache so multiple calls in one request don't repeat the same work.
         $cache = \cache::make(__NAMESPACE__, 'perrequest');
-        $cachekey = __CLASS__ . ':' . __FUNCTION__ . md5(json_encode($info) . $grabthelot . $userid);
+        $cachekey = __CLASS__ . ':' . __FUNCTION__ . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR) . $grabthelot . $userid);
 
         // The cached value is serialized so we can store false and distinguish it from when cache lookup fails.
         $cachedvalue = $cache->get($cachekey);
@@ -283,11 +283,12 @@ class condition extends \core_availability\condition {
      */
     public function get_description($full, $not, \core_availability\info $info) {
         $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $full=' . print_r($full, true) . '; $not=' . $not . '; md5(info)=' . md5($info));
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ .
+                        '::Started with $full=' . print_r($full, true) . '; $not=' . $not . '; sha1(info)=' . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)));
 
         // Cache responses in a per-request cache so multiple calls in one request don't repeat the same work.
         $cache = \cache::make(__NAMESPACE__, 'perrequest');
-        $cachekey = __CLASS__ . ':' . __FUNCTION__ . md5($full . $not . json_encode($info));
+        $cachekey = __CLASS__ . ':' . __FUNCTION__ . sha1($full . $not . json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR));
 
         $cachedvalue = $cache->get($cachekey);
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $cachedvalue=' . print_r($cachedvalue, true));
