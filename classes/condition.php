@@ -228,7 +228,7 @@ class condition extends \core_availability\condition {
 
             switch ($this->expectedstatus) {
                 case INTEGRITYADVOCATE_STATUS_VALID:
-                    $allow = $iaparticipantdata->ReviewStatus === INTEGRITYADVOCATE_API_STATUS_VALID;
+                    $allow = $iaparticipantdata->ReviewStatus === \IntegrityAdvocate_Paticipant_Status::VALID;
                     $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require ReviewStatus=Valid, did it?=' . $allow);
                     break;
                 case INTEGRITYADVOCATE_STATUS_INVALID:
