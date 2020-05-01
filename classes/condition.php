@@ -201,38 +201,16 @@ class condition extends \core_availability\condition {
             $othercm = $modinfo->get_cm($this->cmid);
             $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $othercm with id=' . $othercm->id . '; name=' . $othercm->name);
             // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $othercm=' . print_r($othercm, true));.
-
-            $useriaresults = \block_integrityadvocate_get_course_user_ia_data($course, $userid, $othercm->context->id);
-            // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $useriaresults=' . print_r($useriaresults, true));
-            //
-            // If we get back a string we got an error, so display it and quit.
-            if (is_string($useriaresults)) {
-                $msg = 'Error getting IntegrityAdvocate results: ' . $useriaresults;
-                error_log(__FILE__ . '::' . __FUNCTION__ . "::{$msg}");
-                // Always deny the user access.
-                $allowoverridden = false;
-            }
-        }
-
-        if (is_null($allowoverridden) && is_array($useriaresults) && empty($useriaresults)) {
-            $msg = 'We got back no IA results at all for this user in this module';
-            error_log(__FILE__ . '::' . __FUNCTION__ . "::{$msg}");
-
-            // Always deny the user access.
-            $allowoverridden = false;
         }
 
         if (is_null($allowoverridden)) {
-            // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at $useriaresults=' . print_r($useriaresults, true));.
-            $iaparticipantdata = $useriaresults[0]['ia_participant_data'];
-
             switch ($this->expectedstatus) {
                 case INTEGRITYADVOCATE_STATUS_VALID:
-                    $allow = $iaparticipantdata->ReviewStatus === \IntegrityAdvocate_Paticipant_Status::VALID;
+                    $allow = \IntegrityAdvocate_Api::is_status_valid($othercm->context, $userid);
                     $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require ReviewStatus=Valid, did it?=' . $allow);
                     break;
                 case INTEGRITYADVOCATE_STATUS_INVALID:
-                    $allow = stripos($iaparticipantdata->ReviewStatus, 'invalid') === 0;
+                    $allow = \IntegrityAdvocate_Api::is_status_invalid($othercm->context, $userid);
                     $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require ReviewStatus=~invalid, did it?=' . $allow);
                     break;
                 default:
