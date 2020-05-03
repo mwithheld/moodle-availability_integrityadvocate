@@ -84,7 +84,7 @@ class frontend extends \core_availability\frontend {
                 return $this->cacheinitparams;
             }
 
-            $activities = \block_integrityadvocate_get_course_ia_activities($course, array('visible' => 1, 'configured' => 1));
+            $activities = \block_integrityadvocate_get_course_ia_modules($course, array('visible' => 1, 'configured' => 1));
             // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $activities=' . print_r($activities, true));.
 
             if (!is_array($activities)) {
