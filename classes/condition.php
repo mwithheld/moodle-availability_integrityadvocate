@@ -27,6 +27,7 @@ namespace availability_integrityadvocate;
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/completionlib.php');
+require_once(dirname(__FILE__, 2) . '/locallib.php');
 
 define('INTEGRITYADVOCATE_STATUS_INVALID', 0);
 define('INTEGRITYADVOCATE_STATUS_VALID', 1);
@@ -206,11 +207,11 @@ class condition extends \core_availability\condition {
         if (is_null($allowoverridden)) {
             switch ($this->expectedstatus) {
                 case INTEGRITYADVOCATE_STATUS_VALID:
-                    $allow = \IntegrityAdvocate_Api::is_status_valid($othercm->context, $userid);
+                    $allow = \block_integrityadvocate\Api::is_status_valid($othercm->context, $userid);
                     $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require ReviewStatus=Valid, did it?=' . $allow);
                     break;
                 case INTEGRITYADVOCATE_STATUS_INVALID:
-                    $allow = \IntegrityAdvocate_Api::is_status_invalid($othercm->context, $userid);
+                    $allow = \block_integrityadvocate\Api::is_status_invalid($othercm->context, $userid);
                     $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require ReviewStatus=~invalid, did it?=' . $allow);
                     break;
                 default:
