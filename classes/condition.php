@@ -208,11 +208,11 @@ class condition extends \core_availability\condition {
             switch ($this->expectedstatus) {
                 case INTEGRITYADVOCATE_STATUS_VALID:
                     $allow = \block_integrityadvocate\Api::is_status_valid($othercm->context, $userid);
-                    $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require ReviewStatus=Valid, did it?=' . $allow);
+                    $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require status=Valid, did it?=' . $allow);
                     break;
                 case INTEGRITYADVOCATE_STATUS_INVALID:
                     $allow = \block_integrityadvocate\Api::is_status_invalid($othercm->context, $userid);
-                    $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require ReviewStatus=~invalid, did it?=' . $allow);
+                    $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::We require status=~invalid, did it?=' . $allow);
                     break;
                 default:
                     $msg = 'Invalid $this->expectedstatus=' . $this->expectedstatus;
