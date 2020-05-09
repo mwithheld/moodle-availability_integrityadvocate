@@ -85,7 +85,7 @@ class frontend extends \core_availability\frontend {
             }
 
             $activities = \block_integrityadvocate_get_course_ia_modules($course, array('visible' => 1, 'configured' => 1));
-            // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $activities=' . print_r($activities, true));.
+            // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $activities=' . var_export($activities, true));.
 
             if (!is_array($activities)) {
                 $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::No activites in this course have block_integrityadvocate configured and visible');
@@ -102,11 +102,11 @@ class frontend extends \core_availability\frontend {
 
             $cms = array();
             foreach ($activities as $othercm) {
-                // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at activity=' . print_r($othercm, true));.
+                // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at activity=' . var_export($othercm, true));.
                 if (gettype($othercm) !== 'cm_info') {
                     $othercm = $modinfo->get_cm($othercm['context']->instanceid);
                 }
-                // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at activity=' . print_r($othercm, true));.
+                // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at activity=' . var_export($othercm, true));.
                 // I.
                 // Skip the current activity or if it is being deleted.
                 if (($othercm->id === $cm->id) || $othercm->deletioninprogress) {
@@ -147,7 +147,7 @@ class frontend extends \core_availability\frontend {
 
         // Check if there's at least one other module with completion info.
         $params = $this->get_javascript_init_params($course, $cm, $section);
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got params=' . print_r($params, true));
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got params=' . var_export($params, true));
         if (empty($params)) {
             error_log(__FILE__ . '::' . __FUNCTION__ . '::No activites in this course have block_integrityadvocate configured and visible');
             return false;
