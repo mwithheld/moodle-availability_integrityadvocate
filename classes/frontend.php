@@ -108,8 +108,8 @@ class frontend extends \core_availability\frontend {
                 }
                 // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at activity=' . var_export($othercm, true));.
                 // I.
-                // Skip the current activity or if it is being deleted.
-                if (($othercm->id === $cm->id) || $othercm->deletioninprogress) {
+                // Do not list the activity if completion is turned off, it is the current one, or if it is being deleted.
+                if (!$othercm->completion || !(empty($cm) || $cm->id != $id) || $othercm->deletioninprogress) {
                     continue;
                 }
 
