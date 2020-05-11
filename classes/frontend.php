@@ -68,7 +68,7 @@ class frontend extends \core_availability\frontend {
      */
     protected function get_javascript_init_params($course, \cm_info $cm = null, \section_info $section = null) {
         $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . print_r($section,
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section,
                                 true));
 
         // Use cached result if available. The cache is just because we call it
@@ -142,7 +142,7 @@ class frontend extends \core_availability\frontend {
      */
     protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
         $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . print_r($section,
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section,
                                 true));
 
         // Check if there's at least one other module with completion info.
