@@ -101,7 +101,7 @@ class frontend extends \core_availability\frontend {
             $modinfo = get_fast_modinfo($course);
 
             $cms = array();
-            foreach ($activities as $othercm) {
+            foreach ($activities as $id => $othercm) {
                 // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at activity=' . var_export($othercm, true));.
                 if (gettype($othercm) !== 'cm_info') {
                     $othercm = $modinfo->get_cm($othercm['context']->instanceid);
@@ -109,7 +109,7 @@ class frontend extends \core_availability\frontend {
                 // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at activity=' . var_export($othercm, true));.
                 // I.
                 // Do not list the activity if completion is turned off, it is the current one, or if it is being deleted.
-                if (!$othercm->completion || !(empty($cm) || $cm->id != $id) || $othercm->deletioninprogress) {
+                if (!$othercm->completion || !(empty($cm) || $cm->id != $othercm->id) || $othercm->deletioninprogress) {
                     continue;
                 }
 
