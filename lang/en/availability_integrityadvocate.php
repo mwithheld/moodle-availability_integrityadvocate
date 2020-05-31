@@ -21,12 +21,9 @@
  * @copyright IntegrityAdvocate.com
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-// Put this string first for re-use below.
 $string['title'] = 'IntegrityAdvocate';
-
-// Other strings go here.
 $string['cachedef_perrequest'] = 'Remember values during a single request';
-$string['description'] = 'Require ' . $string['title'] . ' proctor completion';
+$string['description'] = 'Require IntegrityAdvocate proctor completion';
 $string['error_selectcmid'] = 'You must select a module for the completion condition.';
 $string['label_cm'] = 'Module';
 $string['label_validation_status'] = 'Required IA validation status';
@@ -34,7 +31,7 @@ $string['label_completion'] = 'Required IA validation status';
 $string['missing'] = '(Missing module)';
 $string['option_valid'] = 'must be marked valid';
 $string['option_invalid'] = 'must be marked invalid';
-$string['pluginname'] = 'Restriction by ' . $string['title'];
+$string['pluginname'] = 'Restriction by IntegrityAdvocate';
 $string['requires_valid'] = 'The IA result for module <strong>{$a}</strong> is valid';
 $string['requires_invalid'] = 'The IA result for module <strong>{$a}</strong> is marked invalid';
-$string['privacy:metadata'] = 'The ' . $string['pluginname'] . ' plugin does not store any personal data.';
+$string['privacy:metadata'] = 'The IntegrityAdvocate plugin does not store any personal data.';
