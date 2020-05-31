@@ -33,6 +33,7 @@ use block_integrityadvocate\Utility as ia_u;
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/blocks/integrityadvocate/lib.php');
+require_once(dirname(__FILE__, 3) . '/locallib.php');
 
 class provider implements
 \core_privacy\local\metadata\provider
@@ -59,11 +60,11 @@ class provider implements
         // Combine the above keys with corresponding values into a new key-value array.
         $privacyitemsarr = array();
         foreach ($privacyitems as $key) {
-            $privacyitemsarr[$key] = self::PRIVACYMETADATA_STR . ':' . INTEGRITYADVOCATE_BLOCK_NAME . ':' . $key;
+            $privacyitemsarr[$key] = self::PRIVACYMETADATA_STR . ':' . INTEGRITYADVOCATE_AVAILABILITY_NAME . ':' . $key;
         }
 
-        $collection->add_external_location_link(INTEGRITYADVOCATE_BLOCK_NAME, $privacyitemsarr,
-                self::PRIVACYMETADATA_STR . ':' . INTEGRITYADVOCATE_BLOCK_NAME);
+        $collection->add_external_location_link(INTEGRITYADVOCATE_AVAILABILITY_NAME, $privacyitemsarr,
+                self::PRIVACYMETADATA_STR . ':' . INTEGRITYADVOCATE_AVAILABILITY_NAME);
 
         return $collection;
     }
