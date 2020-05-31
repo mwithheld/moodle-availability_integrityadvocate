@@ -172,7 +172,7 @@ class condition extends \core_availability\condition {
 
         require_once(dirname(__FILE__, 2) . '/locallib.php');
         if (!availability_integrityadvocate_is_known_block_type()) {
-            $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::block_integrityadvocate not found, so condition availability_integrityadvocate is not available');
+            $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::block_integrityadvocate not found, so condition ' . INTEGRITYADVOCATE_AVAILABILITY_NAME . ' is not available');
             // If block_integrityadvocate does not exist, always allow the user access.
             $allowoverridden = true;
         }
@@ -279,7 +279,7 @@ class condition extends \core_availability\condition {
         // Get name for module.
         $modinfo = $info->get_modinfo();
         if (!array_key_exists($this->cmid, $modinfo->cms)) {
-            $modname = get_string('missing', 'availability_integrityadvocate');
+            $modname = get_string('missing', INTEGRITYADVOCATE_AVAILABILITY_NAME);
         } else {
             $modname = '<AVAILABILITY_CMNAME_' . $modinfo->cms[$this->cmid]->id . '/>';
         }
@@ -306,7 +306,7 @@ class condition extends \core_availability\condition {
         }
 
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::About to get_string($str)");
-        $str = get_string($str, 'availability_integrityadvocate', $modname);
+        $str = get_string($str, INTEGRITYADVOCATE_AVAILABILITY_NAME, $modname);
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::Got str={$str}");
 
         if (!$cache->set($cachekey, $str)) {
@@ -395,7 +395,7 @@ class condition extends \core_availability\condition {
                 }
                 $ci = new \core_availability\info_module($othercm);
                 $tree = $ci->get_availability_tree();
-                foreach ($tree->get_all_children('availability_integrityadvocate\condition') as $cond) {
+                foreach ($tree->get_all_children(INTEGRITYADVOCATE_AVAILABILITY_NAME . '\condition') as $cond) {
                     self::$modsusedincondition[$course->id][$cond->cmid] = true;
                 }
             }
@@ -407,7 +407,7 @@ class condition extends \core_availability\condition {
                 }
                 $ci = new \core_availability\info_section($section);
                 $tree = $ci->get_availability_tree();
-                foreach ($tree->get_all_children('availability_integrityadvocate\condition') as $cond) {
+                foreach ($tree->get_all_children(INTEGRITYADVOCATE_AVAILABILITY_NAME . '\condition') as $cond) {
                     self::$modsusedincondition[$course->id][$cond->cmid] = true;
                 }
             }

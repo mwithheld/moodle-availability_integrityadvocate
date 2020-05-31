@@ -26,6 +26,9 @@ defined('MOODLE_INTERNAL') || die;
 require_once(dirname(__FILE__, 4) . '/config.php');
 require_once(dirname(__FILE__, 4) . '/blocks/integrityadvocate/lib.php');
 
+/** @var string Longer name for this plugin. */
+const INTEGRITYADVOCATE_AVAILABILITY_NAME = 'availability_integrityadvocate';
+
 /**
  * Find out if a block type is known by the system.
  * Adapted from lib/blocklib.php::is_known_block_type()

@@ -53,29 +53,17 @@ class provider implements
             // Course info.
             'cmid',
             // Moodle user info.
-            'email',
-            'fullname',
             'userid',
-            // Video session info.
-            'identification_card',
-            'session_end',
-            'session_start',
-            'user_video',
-            // Override info.
-            'override_date',
-            'override_fullname',
-            'override_reason',
-            'override_status',
         );
 
         // Combine the above keys with corresponding values into a new key-value array.
         $privacyitemsarr = array();
         foreach ($privacyitems as $key) {
-            $privacyitemsarr[$key] = self::PRIVACYMETADATA_STR . ':' . INTEGRITYADVOCATE_BLOCKNAME . ':' . $key;
+            $privacyitemsarr[$key] = self::PRIVACYMETADATA_STR . ':' . INTEGRITYADVOCATE_BLOCK_NAME . ':' . $key;
         }
 
-        $collection->add_external_location_link(INTEGRITYADVOCATE_BLOCKNAME, $privacyitemsarr,
-                self::PRIVACYMETADATA_STR . ':' . INTEGRITYADVOCATE_BLOCKNAME);
+        $collection->add_external_location_link(INTEGRITYADVOCATE_BLOCK_NAME, $privacyitemsarr,
+                self::PRIVACYMETADATA_STR . ':' . INTEGRITYADVOCATE_BLOCK_NAME);
 
         return $collection;
     }
