@@ -170,7 +170,6 @@ class condition extends \core_availability\condition {
             return unserialize($cachedvalue);
         }
 
-        require_once(dirname(__FILE__, 2) . '/locallib.php');
         if (!availability_integrityadvocate_is_known_block_type()) {
             $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::block_integrityadvocate not found, so condition ' . INTEGRITYADVOCATE_AVAILABILITY_NAME . ' is not available');
             // If block_integrityadvocate does not exist, always allow the user access.
