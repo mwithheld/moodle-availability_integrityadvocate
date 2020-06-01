@@ -73,7 +73,7 @@ class condition extends \core_availability\condition {
             throw new \coding_exception($msg);
         }
 
-        /* Here's what $structure looks like:
+        /* Here's what $structure looks like:...
           $structure=stdClass Object
           (
           [type] => integrityadvocate
@@ -153,14 +153,16 @@ class condition extends \core_availability\condition {
      */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
         $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $not=' . $not . '; sha1(info)=' . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)) . '; $grabthelot=' . $grabthelot . '; $userid=' . $userid);
-        // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $info=' . var_export($info, true));.
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $not=' . $not .
+                        '; sha1(info)=' . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)) .
+                        '; $grabthelot=' . $grabthelot . '; $userid=' . $userid);
         // This valus is non-null when $allow should be forced to true or false.
         $allowoverridden = null;
 
         // Cache responses in a per-request cache so multiple calls in one request don't repeat the same work.
         $cache = \cache::make(__NAMESPACE__, 'perrequest');
-        $cachekey = __CLASS__ . '_' . __FUNCTION__ . '_' . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR) . $grabthelot . $userid);
+        $cachekey = __CLASS__ . '_' . __FUNCTION__ . '_' .
+                sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR) . $grabthelot . $userid);
 
         // The cached value is serialized so we can store false and distinguish it from when cache lookup fails.
         $cachedvalue = $cache->get($cachekey);
@@ -171,7 +173,8 @@ class condition extends \core_availability\condition {
         }
 
         if (!availability_integrityadvocate_is_known_block_type()) {
-            $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::block_integrityadvocate not found, so condition ' . INTEGRITYADVOCATE_AVAILABILITY_NAME . ' is not available');
+            $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::block_integrityadvocate not found, so condition '
+                            . '' . INTEGRITYADVOCATE_AVAILABILITY_NAME . ' is not available');
             // If block_integrityadvocate does not exist, always allow the user access.
             $allowoverridden = true;
         }
@@ -199,8 +202,8 @@ class condition extends \core_availability\condition {
             $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $course->id=' . $course->id);
 
             $othercm = $modinfo->get_cm($this->cmid);
-            $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $othercm with id=' . $othercm->id . '; name=' . $othercm->name);
-            // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $othercm=' . var_export($othercm, true));.
+            $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $othercm with id=' . $othercm->id .
+                            '; name=' . $othercm->name);
         }
 
         if (is_null($allowoverridden)) {
@@ -262,7 +265,8 @@ class condition extends \core_availability\condition {
     public function get_description($full, $not, \core_availability\info $info) {
         $debug = true;
         $debug && error_log(__FILE__ . '::' . __FUNCTION__ .
-                        '::Started with $full=' . var_export($full, true) . '; $not=' . $not . '; sha1(info)=' . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)));
+                        '::Started with $full=' . var_export($full, true) . '; $not=' . $not .
+                        '; sha1(info)=' . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)));
 
         // Cache responses in a per-request cache so multiple calls in one request don't repeat the same work.
         $cache = \cache::make(__NAMESPACE__, 'perrequest');
@@ -282,12 +286,14 @@ class condition extends \core_availability\condition {
         } else {
             $modname = '<AVAILABILITY_CMNAME_' . $modinfo->cms[$this->cmid]->id . '/>';
         }
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::Got \$modname={$modname}; \$this->expectedstatus={$this->expectedstatus}");
+        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::Got \$modname={$modname}; "
+                        . "\$this->expectedstatus={$this->expectedstatus}");
 
         // Work out which lang string to use.
         switch ($this->expectedstatus) {
             case INTEGRITYADVOCATE_STATUS_INVALID :
-                $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::Found \$this->expectedstatus={$this->expectedstatus} == INTEGRITYADVOCATE_STATUS_INVALID");
+                $debug && error_log(__FILE__ . '::' . __FUNCTION__ .
+                                "::Found \$this->expectedstatus={$this->expectedstatus} == INTEGRITYADVOCATE_STATUS_INVALID");
                 if ($not) {
                     $str = 'requires_valid';
                 } else {
@@ -296,7 +302,8 @@ class condition extends \core_availability\condition {
                 break;
             case INTEGRITYADVOCATE_STATUS_VALID :
             default:
-                $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::Found \$this->expectedstatus={$this->expectedstatus} == INTEGRITYADVOCATE_STATUS_VALID or default");
+                $debug && error_log(__FILE__ . '::' . __FUNCTION__ . "::Found \$this->expectedstatus={$this->expectedstatus} == "
+                                . "INTEGRITYADVOCATE_STATUS_VALID or default");
                 if ($not) {
                     $str = 'requires_invalid';
                 } else {
