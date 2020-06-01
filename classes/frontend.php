@@ -24,6 +24,8 @@
 
 namespace availability_integrityadvocate;
 
+use block_integrityadvocate\MoodleUtility as ia_mu;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(__FILE__, 2) . '/locallib.php');
@@ -67,9 +69,10 @@ class frontend extends \core_availability\frontend {
      * @return array Array of parameters for the JavaScript function
      */
     protected function get_javascript_init_params($course, \cm_info $cm = null, \section_info $section = null) {
-        $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section,
-                                true));
+        $debug = false;
+        $fxn = __CLASS__ . '::' . __FUNCTION__;
+        $debug && ia_mu::log($fxn . '::Started with $course->id' . $course->id . '; '
+                        . 'cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));
 
         // Use cached result if available. The cache is just because we call it
         // twice (once from allow_add) so it's nice to avoid doing all the
@@ -77,7 +80,7 @@ class frontend extends \core_availability\frontend {
         $cachekey = $course->id . '_' . ($cm ? $cm->id : '') . '_' . ($section ? $section->id : '');
         if ($debug || $cachekey !== $this->cachekey) {
             if (!availability_integrityadvocate_is_known_block_type()) {
-                $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::block_integrityadvocate must be installed and visible');
+                $debug && ia_mu::log($fxn . '::block_integrityadvocate must be installed and visible');
                 // Do not set any parameters.
                 $this->cachekey = $cachekey;
                 $this->cacheinitparams = array();
@@ -85,10 +88,9 @@ class frontend extends \core_availability\frontend {
             }
 
             $activities = \block_integrityadvocate_get_course_ia_modules($course, array('visible' => 1, 'configured' => 1));
-            // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got $activities=' . var_export($activities, true));.
 
             if (!is_array($activities)) {
-                $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::No activites in this course have block_integrityadvocate configured and visible');
+                $debug && ia_mu::log($fxn . '::No activites in this course have block_integrityadvocate configured and visible');
                 // Do not set any parameters.
                 $this->cachekey = $cachekey;
                 $this->cacheinitparams = array();
@@ -102,12 +104,10 @@ class frontend extends \core_availability\frontend {
 
             $cms = array();
             foreach ($activities as $id => $othercm) {
-                // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at activity=' . var_export($othercm, true));.
                 if (gettype($othercm) !== 'cm_info') {
                     $othercm = $modinfo->get_cm($othercm['context']->instanceid);
                 }
-                // Disabled on purpose: $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Looking at activity=' . var_export($othercm, true));.
-                // I.
+
                 // Do not list the activity if completion is turned off, it is the current one, or if it is being deleted.
                 if (!$othercm->completion || !(empty($cm) || isset($cm->id) || $cm->id != $id) || $othercm->deletioninprogress) {
                     continue;
@@ -141,20 +141,21 @@ class frontend extends \core_availability\frontend {
      * @return boolean True if the condition can be added.
      */
     protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
-        $debug = true;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section,
-                                true));
+        $debug = false;
+        $fxn = __CLASS__ . '::' . __FUNCTION__;
+        $debug && ia_mu::log($fxn . '::Started with $course->id' . $course->id .
+                        '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));
 
         // Check if there's at least one other module with completion info.
         $params = $this->get_javascript_init_params($course, $cm, $section);
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::Got params=' . var_export($params, true));
+        $debug && ia_mu::log($fxn . '::Got params=' . var_export($params, true));
         if (empty($params)) {
-            error_log(__FILE__ . '::' . __FUNCTION__ . '::No activites in this course have block_integrityadvocate configured and visible');
+            ia_mu::log($fxn . '::No activites in this course have block_integrityadvocate configured and visible');
             return false;
         }
 
         $result = ((array) $params[0]) != false;
-        $debug && error_log(__FILE__ . '::' . __FUNCTION__ . '::About to return $result=' . $result);
+        $debug && ia_mu::log($fxn . '::About to return $result=' . $result);
         return $result;
     }
 
