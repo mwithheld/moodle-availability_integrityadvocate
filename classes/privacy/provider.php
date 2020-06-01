@@ -35,9 +35,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/blocks/integrityadvocate/lib.php');
 require_once(dirname(__FILE__, 3) . '/locallib.php');
 
-class provider implements
-\core_privacy\local\metadata\provider
-\core_userlist_provider {
+class provider implements \core_privacy\local\metadata\provider \core_userlist_provider {
 
     const PRIVACYMETADATA_STR = 'privacy:metadata';
     const BRNL = "<br>\n";
@@ -48,8 +46,7 @@ class provider implements
      * @param  collection $collection An object for storing metadata.
      * @return collection The metadata.
      */
-    public static function get_metadata(collection $collection):
-    collection {
+    public static function get_metadata(collection $collection): collection {
         $privacyitems = array(
             // Course info.
             'cmid',
