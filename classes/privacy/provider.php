@@ -15,18 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for availability_integrityadvocate.
+ * Privacy Subsystem  for availability_integrityadvocate.
  *
- * @package    availability_integrityadvocate
  * @copyright  IntegrityAdvocate.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace availability_integrityadvocate;
+namespace availability_integrityadvocate\privacy;
 
 use \core_privacy\local\metadata\collection;
-use \core_privacy\local\request;
-use block_integrityadvocate\Api as ia_api;
+use \core_privacy\local\request\approved_contextlist;
+use \core_privacy\local\request\approved_userlist;
+use \core_privacy\local\request\contextlist;
+use \core_privacy\local\request\userlist;
 use block_integrityadvocate\MoodleUtility as ia_mu;
 use block_integrityadvocate\Utility as ia_u;
 
@@ -35,18 +36,25 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/blocks/integrityadvocate/lib.php');
 require_once(dirname(__FILE__, 3) . '/locallib.php');
 
-class provider implements \core_privacy\local\metadata\provider \core_userlist_provider {
+class provider implements \core_privacy\local\metadata\provider,
+        \core_privacy\local\request\core_userlist_provider,
+        \core_privacy\local\request\plugin\provider {
 
     const PRIVACYMETADATA_STR = 'privacy:metadata';
     const BRNL = "<br>\n";
 
     /**
      * Get information about the user data stored by this plugin.
+     * This does not include data that is set on the remote API side.
      *
      * @param  collection $collection An object for storing metadata.
      * @return collection The metadata.
      */
     public static function get_metadata(collection $collection): collection {
+        $debug = false;
+        $fxn = __CLASS__ . '::' . __FUNCTION__;
+        $debug && ia_mu::log($fxn . '::Started with $collection=' . var_export($collection, true), INTEGRITYADVOCATE_LOGDEST_HTML);
+
         $privacyitems = array(
             // Course info.
             'cmid',
@@ -61,7 +69,7 @@ class provider implements \core_privacy\local\metadata\provider \core_userlist_p
         }
 
         $collection->add_external_location_link(INTEGRITYADVOCATE_AVAILABILITY_NAME, $privacyitemsarr,
-                self::PRIVACYMETADATA_STR . ':' . INTEGRITYADVOCATE_AVAILABILITY_NAME);
+                self::PRIVACYMETADATA_STR . ':' . INTEGRITYADVOCATE_AVAILABILITY_NAME . ':tableexplanation');
 
         return $collection;
     }
@@ -72,8 +80,7 @@ class provider implements \core_privacy\local\metadata\provider \core_userlist_p
      *
      * @param   \userlist    $userlist   The userlist containing the list of users who have data in this context/plugin combination.
      */
-    public static function get_users_in_context(\userlist $userlist) {
-        global $DB;
+    public static function get_users_in_context(userlist $userlist) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && ia_mu::log($fxn . '::Started with $userlist=' . var_export($userlist, true));
@@ -82,12 +89,12 @@ class provider implements \core_privacy\local\metadata\provider \core_userlist_p
             return;
         }
 
-        $modulecontext = $userlist->get_context();
-        if ($modulecontext->contextlevel !== CONTEXT_MODULE) {
+        $context = $userlist->get_context();
+        if (!$context instanceof \context_module) {
             return;
         }
 
-        $blockinstance = ia_mu::get_first_block($modulecontext, INTEGRITYADVOCATE_BLOCK_NAME, false);
+        $blockinstance = ia_mu::get_first_block($context, INTEGRITYADVOCATE_BLOCK_NAME, false);
         if (!$blockinstance) {
             return;
         }
@@ -100,7 +107,7 @@ class provider implements \core_privacy\local\metadata\provider \core_userlist_p
      *
      * @param approved_userlist $userlist The approved context and user information to delete information for.
      */
-    public static function delete_data_for_users(\approved_userlist $userlist) {
+    public static function delete_data_for_users(\core_privacy\local\request\approved_userlist $userlist) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && ia_mu::log($fxn . '::Started with $userlist=' . var_export($userlist, true));
@@ -109,12 +116,12 @@ class provider implements \core_privacy\local\metadata\provider \core_userlist_p
             return;
         }
 
-        $modulecontext = $userlist->get_context();
-        if ($modulecontext->contextlevel !== CONTEXT_MODULE) {
+        $context = $userlist->get_context();
+        if ($context->contextlevel !== CONTEXT_MODULE) {
             return;
         }
 
-        $blockinstance = ia_mu::get_first_block($modulecontext, INTEGRITYADVOCATE_BLOCK_NAME, false);
+        $blockinstance = ia_mu::get_first_block($context, INTEGRITYADVOCATE_BLOCK_NAME, false);
         if (!$blockinstance) {
             return;
         }
@@ -140,12 +147,11 @@ class provider implements \core_privacy\local\metadata\provider \core_userlist_p
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && ia_mu::log($fxn . '::Started with $context=' . var_export($context, true));
 
-        $modulecontext = $userlist->get_context();
-        if ($modulecontext->contextlevel !== CONTEXT_MODULE) {
+        if (!($context instanceof \context_module)) {
             return;
         }
 
-        $blockinstance = ia_mu::get_first_block($modulecontext, INTEGRITYADVOCATE_BLOCK_NAME, false);
+        $blockinstance = ia_mu::get_first_block($context, INTEGRITYADVOCATE_BLOCK_NAME, false);
         if (!$blockinstance) {
             return;
         }
@@ -158,7 +164,7 @@ class provider implements \core_privacy\local\metadata\provider \core_userlist_p
      *
      * @param   approved_contextlist    $contextlist    The approved contexts and user information to delete information for.
      */
-    public static function delete_data_for_user(\approved_contextlist $contextlist) {
+    public static function delete_data_for_user(approved_contextlist $contextlist) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && ia_mu::log($fxn . '::Started with $contextlist=' . var_export($contextlist, true));
@@ -168,6 +174,9 @@ class provider implements \core_privacy\local\metadata\provider \core_userlist_p
         }
 
         $user = $contextlist->get_user();
+        if (!isset($user->id)) {
+            return;
+        }
 
         foreach ($contextlist->get_contexts() as $context) {
             // Get IA participant data from the remote API.
@@ -179,6 +188,69 @@ class provider implements \core_privacy\local\metadata\provider \core_userlist_p
 
             // If we got participants, we are in the block context and the parent is a module.
             \block_integrityadvocate\provider::delete_participants($context, $participants, array($user->id));
+        }
+    }
+
+    /**
+     * Get the list of contexts that contain user information for the specified user.
+     *
+     * @param   int           $userid       The user to search.
+     * @return  contextlist   $contextlist  The list of contexts used in this plugin.
+     */
+    public static function get_contexts_for_userid(int $userid): contextlist {
+        // Gets all IA blocks in the site.
+        $blockinstances = ia_mu::get_all_blocks(\INTEGRITYADVOCATE_SHORTNAME, false);
+
+        $contextlist = new contextlist();
+        if (empty($blockinstances)) {
+            return $contextlist;
+        }
+
+        // For each visible IA block instance, get the context id.
+        $contextids = array();
+        foreach ($blockinstances as $b) {
+            $blockcontext = $b->context;
+            $parentcontext = $blockcontext->get_parent_context();
+            // We only have data for IA blocks in modules.
+            if (intval($parentcontext->contextlevel) !== intval(CONTEXT_MODULE)) {
+                continue;
+            }
+            if (\is_enrolled($parentcontext, $userid)) {
+                $contextids[] = $b->context->id;
+            }
+        }
+
+        $contextlist->add_user_contexts($contextids);
+
+        return $contextlist;
+    }
+
+    /**
+     * Export all user data for the specified user, in the specified contexts, using the supplied exporter instance.
+     *
+     * @param   approved_contextlist    $contextlist    The approved contexts to export information for.
+     */
+    public static function export_user_data(approved_contextlist $contextlist) {
+        if (empty($contextlist->count())) {
+            return;
+        }
+        $user = $contextlist->get_user();
+        if (!isset($user->id)) {
+            return;
+        }
+
+        foreach ($contextlist->get_contexts() as $context) {
+            // Get IA participant data from the remote API.
+            $participants = \block_integrityadvocate_get_participants_for_blockcontext($context);
+            if (ia_u::is_empty($participants)) {
+                continue;
+            }
+
+            // If we got participants, we are in the block context and the parent is a module.
+            if (isset($participants[$user->id]) && !empty($p = $participants[$user->id])) {
+                $data = (object) \block_integrityadvocate\provider::get_participant_info_for_export($p);
+                \core_privacy\local\request\writer::with_context($context)->export_data([INTEGRITYADVOCATE_BLOCK_NAME], $data);
+            }
         }
     }
 
