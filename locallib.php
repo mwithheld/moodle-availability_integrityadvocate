@@ -26,6 +26,8 @@ defined('MOODLE_INTERNAL') || die;
 require_once(dirname(__FILE__, 4) . '/config.php');
 require_once(dirname(__FILE__, 4) . '/blocks/integrityadvocate/lib.php');
 
+require_login();
+
 /** @var string Longer name for this plugin. */
 const INTEGRITYADVOCATE_AVAILABILITY_NAME = 'availability_integrityadvocate';
 
