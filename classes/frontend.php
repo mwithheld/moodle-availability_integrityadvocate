@@ -71,8 +71,7 @@ class frontend extends \core_availability\frontend {
     protected function get_javascript_init_params($course, \cm_info $cm = null, \section_info $section = null) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $course->id' . $course->id . '; '
-                        . 'cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));
+        $debug && ia_mu::log($fxn . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));
 
         // Use cached result if available. The cache is just because we call it
         // twice (once from allow_add) so it's nice to avoid doing all the
@@ -143,8 +142,7 @@ class frontend extends \core_availability\frontend {
     protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $course->id' . $course->id .
-                        '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));
+        $debug && ia_mu::log($fxn . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));
 
         // Check if there's at least one other module with completion info.
         $params = $this->get_javascript_init_params($course, $cm, $section);
