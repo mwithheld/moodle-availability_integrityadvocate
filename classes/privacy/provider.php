@@ -17,7 +17,7 @@
 /**
  * Privacy Subsystem  for availability_integrityadvocate.
  *
- * @package    block_integrityadvocate
+ * @package    availability_integrityadvocate
  * @copyright  IntegrityAdvocate.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -37,6 +37,9 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/blocks/integrityadvocate/lib.php');
 require_once(dirname(__FILE__, 3) . '/locallib.php');
 
+/**
+ * Privacy Subsystem for availability_integrityadvocate.
+ */
 class provider implements \core_privacy\local\metadata\provider,
         \core_privacy\local\request\core_userlist_provider,
         \core_privacy\local\request\plugin\provider {

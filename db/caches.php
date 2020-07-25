@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * block_integrityadvocate cache definitions.
+ * The availability_integrityadvocate cache definitions.
  *
- * @package    block_integrityadvocate
+ * @package    availability_integrityadvocate
  * @copyright IntegrityAdvocate.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

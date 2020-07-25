@@ -347,8 +347,8 @@ class condition extends \core_availability\condition {
      * @param string $restoreid Restore identifier
      * @param int $courseid Target course id
      * @param \base_logger $logger Logger for any warnings
-     * @param int $dateoffset Date offset to be added to any dates (0 = none)
-     * @param \base_task $task Restore task
+     * @param string $name Name of this item (for use in warning messages)
+     * @return bool True if there was any change
      */
     public function update_after_restore($restoreid, $courseid, \base_logger $logger, $name) {
         global $DB;
@@ -433,7 +433,6 @@ class condition extends \core_availability\condition {
      * function does that for the conditional availability data for all
      * modules and sections on the course.
      *
-     * @param int|\stdClass $courseorid Course id or object
      * @param string $table Table name e.g. 'course_modules'
      * @param int $oldid Previous ID
      * @param int $newid New ID
