@@ -44,7 +44,10 @@ class provider implements \core_privacy\local\metadata\provider,
         \core_privacy\local\request\core_userlist_provider,
         \core_privacy\local\request\plugin\provider {
 
+    /** @var string Re-usable name for this medatadata */
     const PRIVACYMETADATA_STR = 'privacy:metadata';
+
+    /** @var str HTML linebreak */
     const BRNL = "<br>\n";
 
     /**
