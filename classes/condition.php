@@ -266,7 +266,7 @@ class condition extends \core_availability\condition {
     public function get_description($full, $not, \core_availability\info $info) {
         $debug = true;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $full=' . var_export($full, true) . '; $not=' . $not . '; sha1(info)=' . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)));
+        $debug && ia_mu::log($fxn . '::Started with $full=' . var_export($full, true) . "; \$not={$not}; sha1(info)=" . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)));
 
         // Cache responses in a per-request cache so multiple calls in one request don't repeat the same work.
         $cache = \cache::make(__NAMESPACE__, 'perrequest');
