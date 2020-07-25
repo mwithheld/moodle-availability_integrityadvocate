@@ -54,7 +54,7 @@ class provider implements \core_privacy\local\metadata\provider,
     public static function get_metadata(collection $collection): collection {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $collection=' . var_export($collection, true), INTEGRITYADVOCATE_LOGDEST_HTML);
+        $debug && ia_mu::log($fxn . '::Started with $collection=' . var_export($collection, true));
 
         $privacyitems = array(
             // Course info.
