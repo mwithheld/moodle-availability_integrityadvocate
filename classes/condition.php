@@ -186,7 +186,7 @@ class condition extends \core_availability\condition {
             if ($modulecontext->contextlevel !== CONTEXT_MODULE) {
                 $msg = 'Called with invalid contextlevel=' . $modulecontext->contextlevel;
                 ia_mu::log($fxn . "::$msg");
-                throw new Exception($msg);
+                throw new \Exception($msg);
             }
 
             $modinfo = $info->get_modinfo();
@@ -220,7 +220,7 @@ class condition extends \core_availability\condition {
                 default:
                     $msg = 'Invalid $this->expectedstatus=' . $this->expectedstatus;
                     ia_mu::log($fxn . "::$msg");
-                    throw new Exception($msg);
+                    throw new \Exception($msg);
             }
         }
 
@@ -233,7 +233,7 @@ class condition extends \core_availability\condition {
         }
 
         if (!$cache->set($cachekey, serialize($allow))) {
-            throw new Exception('Failed to set value in perrequest cache');
+            throw new \Exception('Failed to set value in perrequest cache');
         }
 
         $debug && ia_mu::log($fxn . "::\$othercm={$othercm->id}; About to return $allow=" . $allow);
@@ -313,7 +313,7 @@ class condition extends \core_availability\condition {
         $debug && ia_mu::log($fxn . "::Got str={$str}");
 
         if (!$cache->set($cachekey, $str)) {
-            throw new Exception('Failed to set value in perrequest cache');
+            throw new \Exception('Failed to set value in perrequest cache');
         }
 
         return $str;
