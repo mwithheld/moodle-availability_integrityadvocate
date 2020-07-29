@@ -65,7 +65,7 @@ class condition extends \core_availability\condition {
      * @throws \coding_exception If invalid data structure.
      */
     public function __construct(\stdClass $structure) {
-        $debug = true;
+        $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && ia_mu::log($fxn . '::Started with $structure=' . var_export($structure, true));
 
@@ -107,7 +107,7 @@ class condition extends \core_availability\condition {
      * @return stdClass A completion object
      */
     public function save() {
-        $debug = true;
+        $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && ia_mu::log($fxn . '::Started');
 
@@ -155,7 +155,7 @@ class condition extends \core_availability\condition {
      * @return bool True if available
      */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
-        $debug = true;
+        $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && ia_mu::log($fxn . '::Started with $not=' . $not .
                         '; sha1(info)=' . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)) .
@@ -264,7 +264,7 @@ class condition extends \core_availability\condition {
      *   this item
      */
     public function get_description($full, $not, \core_availability\info $info) {
-        $debug = true;
+        $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && ia_mu::log($fxn . '::Started with $full=' . var_export($full, true) . "; \$not={$not}; sha1(info)=" . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)));
 
@@ -353,7 +353,7 @@ class condition extends \core_availability\condition {
     public function update_after_restore($restoreid, $courseid, \base_logger $logger, $name) {
         global $DB;
 
-        $debug = true;
+        $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && ia_mu::log($fxn . "::Started with \$courseid={$courseid}; \$name={$name}");
 
@@ -382,7 +382,7 @@ class condition extends \core_availability\condition {
      * @return bool True if this is used in a condition, false otherwise
      */
     public static function completion_value_used($course, $cmid) {
-        $debug = true;
+        $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && ia_mu::log($fxn . "::Started with \$course->id={$course->id}; \$cmid={$cmid}");
 
@@ -439,7 +439,7 @@ class condition extends \core_availability\condition {
      * @return bool True if anything changed, otherwise false
      */
     public function update_dependency_id($table, $oldid, $newid) {
-        $debug = true;
+        $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && ia_mu::log($fxn . "::Started with \$table={$table}; \$oldid={$oldid}; \$newid={$newid}");
         if ($table === 'course_modules' && (int) $this->cmid === (int) $oldid) {
