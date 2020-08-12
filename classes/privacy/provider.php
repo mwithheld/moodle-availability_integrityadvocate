@@ -227,6 +227,9 @@ class provider implements \core_privacy\local\metadata\provider,
             }
         }
 
+        if (empty($contextids)) {
+            return $contextlist;
+        }
         $contextlist->add_user_contexts($contextids);
 
         return $contextlist;
