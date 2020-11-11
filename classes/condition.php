@@ -24,6 +24,7 @@
 
 namespace availability_integrityadvocate;
 
+use block_integrityadvocate\Logger as Logger;
 use block_integrityadvocate\MoodleUtility as ia_mu;
 
 defined('MOODLE_INTERNAL') || die();
@@ -67,15 +68,15 @@ class condition extends \core_availability\condition {
     public function __construct(\stdClass $structure) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $structure=' . var_export($structure, true));
+        $debug && Logger::log($fxn . '::Started with $structure=' . var_export($structure, true));
 
         // Get cmid.
         if (isset($structure->cm) && is_number($structure->cm)) {
             $this->cmid = (int) $structure->cm;
-            $debug && ia_mu::log($fxn . "::Set this->cmid={$this->cmid}");
+            $debug && Logger::log($fxn . "::Set this->cmid={$this->cmid}");
         } else {
             $msg = 'Missing or invalid value in cm for completion condition';
-            ia_mu::log($fxn . "::{$msg}");
+            Logger::log($fxn . "::{$msg}");
             throw new \coding_exception($msg);
         }
 
@@ -93,10 +94,10 @@ class condition extends \core_availability\condition {
                 )
         ) {
             $this->expectedstatus = $structure->e;
-            $debug && ia_mu::log($fxn . "::Set this->expectedstatus={$this->expectedstatus}");
+            $debug && Logger::log($fxn . "::Set this->expectedstatus={$this->expectedstatus}");
         } else {
             $msg = 'Missing or invalid value in e for completion condition';
-            ia_mu::log($fxn . "::{$msg}");
+            Logger::log($fxn . "::{$msg}");
             throw new \coding_exception($msg);
         }
     }
@@ -109,10 +110,10 @@ class condition extends \core_availability\condition {
     public function save() {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started');
+        $debug && Logger::log($fxn . '::Started');
 
         $data = (object) array('type' => INTEGRITYADVOCATE_SHORTNAME, 'cm' => $this->cmid, 'e' => $this->expectedstatus);
-        $debug && ia_mu::log($fxn . '::About to return $data=' . var_export($data, true));
+        $debug && Logger::log($fxn . '::About to return $data=' . var_export($data, true));
 
         return $data;
     }
@@ -157,7 +158,7 @@ class condition extends \core_availability\condition {
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $not=' . $not .
+        $debug && Logger::log($fxn . '::Started with $not=' . $not .
                         '; sha1(info)=' . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)) .
                         '; $grabthelot=' . $grabthelot . '; $userid=' . $userid);
         // This valus is non-null when $allow should be forced to true or false.
@@ -169,14 +170,14 @@ class condition extends \core_availability\condition {
 
         // The cached value is serialized so we can store false and distinguish it from when cache lookup fails.
         $cachedvalue = $cache->get($cachekey);
-        $debug && ia_mu::log($fxn . '::Got $cachedvalue=' . var_export($cachedvalue, true));
+        $debug && Logger::log($fxn . '::Got $cachedvalue=' . var_export($cachedvalue, true));
         if ($cachedvalue) {
-            $debug && ia_mu::log($fxn . '::Found a cached value, so return that');
+            $debug && Logger::log($fxn . '::Found a cached value, so return that');
             return unserialize($cachedvalue);
         }
 
         if (!availability_integrityadvocate_is_known_block_type()) {
-            $debug && ia_mu::log($fxn . '::block_integrityadvocate not found, so condition ' . INTEGRITYADVOCATE_AVAILABILITY_NAME . ' is not available');
+            $debug && Logger::log($fxn . '::block_integrityadvocate not found, so condition ' . INTEGRITYADVOCATE_AVAILABILITY_NAME . ' is not available');
             // If block_integrityadvocate does not exist, always allow the user access.
             $allowoverridden = true;
         }
@@ -185,7 +186,7 @@ class condition extends \core_availability\condition {
             $modulecontext = $info->get_context();
             if ($modulecontext->contextlevel !== CONTEXT_MODULE) {
                 $msg = 'Called with invalid contextlevel=' . $modulecontext->contextlevel;
-                ia_mu::log($fxn . "::$msg");
+                Logger::log($fxn . "::$msg");
                 throw new \Exception($msg);
             }
 
@@ -201,25 +202,25 @@ class condition extends \core_availability\condition {
         if (is_null($allowoverridden)) {
             // Get the IA data so we can decide whether to show the activity to the user.
             $course = $modinfo->get_course();
-            $debug && ia_mu::log($fxn . '::Got $course->id=' . $course->id);
+            $debug && Logger::log($fxn . '::Got $course->id=' . $course->id);
 
             $othercm = $modinfo->get_cm($this->cmid);
-            $debug && ia_mu::log($fxn . '::Got $othercm->id=' . $othercm->id . '; name=' . $othercm->name);
+            $debug && Logger::log($fxn . '::Got $othercm->id=' . $othercm->id . '; name=' . $othercm->name);
         }
 
         if (is_null($allowoverridden)) {
             switch ($this->expectedstatus) {
                 case INTEGRITYADVOCATE_EXPECTED_STATUS_VALID:
                     $allow = \block_integrityadvocate\Api::is_status_valid($othercm->context, $userid);
-                    $debug && ia_mu::log($fxn . "::\$othercm={$othercm->id}; We require status=Valid, did it?=" . $allow);
+                    $debug && Logger::log($fxn . "::\$othercm={$othercm->id}; We require status=Valid, did it?=" . $allow);
                     break;
                 case INTEGRITYADVOCATE_EXPECTED_STATUS_INVALID:
                     $allow = \block_integrityadvocate\Api::is_status_invalid($othercm->context, $userid);
-                    $debug && ia_mu::log($fxn . "::\$othercm={$othercm->id}; We require status=Invalid, did it?=" . $allow);
+                    $debug && Logger::log($fxn . "::\$othercm={$othercm->id}; We require status=Invalid, did it?=" . $allow);
                     break;
                 default:
                     $msg = 'Invalid $this->expectedstatus=' . $this->expectedstatus;
-                    ia_mu::log($fxn . "::$msg");
+                    Logger::log($fxn . "::$msg");
                     throw new \Exception($msg);
             }
         }
@@ -236,7 +237,7 @@ class condition extends \core_availability\condition {
             throw new \Exception('Failed to set value in perrequest cache');
         }
 
-        $debug && ia_mu::log($fxn . "::\$othercm={$othercm->id}; About to return $allow=" . $allow);
+        $debug && Logger::log($fxn . "::\$othercm={$othercm->id}; About to return $allow=" . $allow);
         return $allow;
     }
 
@@ -266,16 +267,16 @@ class condition extends \core_availability\condition {
     public function get_description($full, $not, \core_availability\info $info) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $full=' . var_export($full, true) . "; \$not={$not}; sha1(info)=" . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)));
+        $debug && Logger::log($fxn . '::Started with $full=' . var_export($full, true) . "; \$not={$not}; sha1(info)=" . sha1(json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR)));
 
         // Cache responses in a per-request cache so multiple calls in one request don't repeat the same work.
         $cache = \cache::make(__NAMESPACE__, 'perrequest');
         $cachekey = ia_mu::get_cache_key(__CLASS__ . '_' . __FUNCTION__ . '_' . $this->cmid . $full . $not . json_encode($info, JSON_PARTIAL_OUTPUT_ON_ERROR));
 
         $cachedvalue = $cache->get($cachekey);
-        $debug && ia_mu::log($fxn . '::Got $cachedvalue=' . var_export($cachedvalue, true));
+        $debug && Logger::log($fxn . '::Got $cachedvalue=' . var_export($cachedvalue, true));
         if ($cachedvalue) {
-            $debug && ia_mu::log($fxn . '::Found a cached value, so return that');
+            $debug && Logger::log($fxn . '::Found a cached value, so return that');
             return $cachedvalue;
         }
 
@@ -286,12 +287,12 @@ class condition extends \core_availability\condition {
         } else {
             $modname = '<AVAILABILITY_CMNAME_' . $modinfo->cms[$this->cmid]->id . '/>';
         }
-        $debug && ia_mu::log($fxn . "::Got \$modname={$modname}; " . "\$this->expectedstatus={$this->expectedstatus}");
+        $debug && Logger::log($fxn . "::Got \$modname={$modname}; " . "\$this->expectedstatus={$this->expectedstatus}");
 
         // Work out which lang string to use.
         switch ($this->expectedstatus) {
             case INTEGRITYADVOCATE_EXPECTED_STATUS_INVALID :
-                $debug && ia_mu::log($fxn . "::Found \$this->expectedstatus={$this->expectedstatus} == INTEGRITYADVOCATE_EXPECTED_STATUS_INVALID");
+                $debug && Logger::log($fxn . "::Found \$this->expectedstatus={$this->expectedstatus} == INTEGRITYADVOCATE_EXPECTED_STATUS_INVALID");
                 if ($not) {
                     $str = 'requires_valid';
                 } else {
@@ -300,7 +301,7 @@ class condition extends \core_availability\condition {
                 break;
             case INTEGRITYADVOCATE_EXPECTED_STATUS_VALID :
             default:
-                $debug && ia_mu::log($fxn . "::Found \$this->expectedstatus={$this->expectedstatus} == INTEGRITYADVOCATE_EXPECTED_STATUS_VALID or default");
+                $debug && Logger::log($fxn . "::Found \$this->expectedstatus={$this->expectedstatus} == INTEGRITYADVOCATE_EXPECTED_STATUS_VALID or default");
                 if ($not) {
                     $str = 'requires_invalid';
                 } else {
@@ -308,9 +309,9 @@ class condition extends \core_availability\condition {
                 }
         }
 
-        $debug && ia_mu::log($fxn . "::About to get_string($str)");
+        $debug && Logger::log($fxn . "::About to get_string($str)");
         $str = get_string($str, INTEGRITYADVOCATE_AVAILABILITY_NAME, $modname);
-        $debug && ia_mu::log($fxn . "::Got str={$str}");
+        $debug && Logger::log($fxn . "::Got str={$str}");
 
         if (!$cache->set($cachekey, $str)) {
             throw new \Exception('Failed to set value in perrequest cache');
@@ -355,7 +356,7 @@ class condition extends \core_availability\condition {
 
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . "::Started with \$courseid={$courseid}; \$name={$name}");
+        $debug && Logger::log($fxn . "::Started with \$courseid={$courseid}; \$name={$name}");
 
         $rec = \restore_dbops::get_backup_ids_record($restoreid, 'course_module', $this->cmid);
         if (!$rec || !$rec->newitemid) {
@@ -384,7 +385,7 @@ class condition extends \core_availability\condition {
     public static function completion_value_used($course, $cmid) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . "::Started with \$course->id={$course->id}; \$cmid={$cmid}");
+        $debug && Logger::log($fxn . "::Started with \$course->id={$course->id}; \$cmid={$cmid}");
 
         // Have we already worked out a list of required completion values
         // for this course? If so just use that.
@@ -441,7 +442,7 @@ class condition extends \core_availability\condition {
     public function update_dependency_id($table, $oldid, $newid) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . "::Started with \$table={$table}; \$oldid={$oldid}; \$newid={$newid}");
+        $debug && Logger::log($fxn . "::Started with \$table={$table}; \$oldid={$oldid}; \$newid={$newid}");
         if ($table === 'course_modules' && (int) $this->cmid === (int) $oldid) {
             $this->cmid = $newid;
             return true;

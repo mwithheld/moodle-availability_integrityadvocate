@@ -29,6 +29,7 @@ use \core_privacy\local\request\approved_contextlist;
 use \core_privacy\local\request\approved_userlist;
 use \core_privacy\local\request\contextlist;
 use \core_privacy\local\request\userlist;
+use block_integrityadvocate\Logger as Logger;
 use block_integrityadvocate\MoodleUtility as ia_mu;
 use block_integrityadvocate\Utility as ia_u;
 
@@ -60,7 +61,7 @@ class provider implements \core_privacy\local\metadata\provider,
     public static function get_metadata(collection $collection): collection {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $collection=' . var_export($collection, true));
+        $debug && Logger::log($fxn . '::Started with $collection=' . var_export($collection, true));
 
         $privacyitems = array(
             // Course info.
@@ -90,7 +91,7 @@ class provider implements \core_privacy\local\metadata\provider,
     public static function get_users_in_context(userlist $userlist) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $userlist=' . var_export($userlist, true));
+        $debug && Logger::log($fxn . '::Started with $userlist=' . var_export($userlist, true));
 
         if (empty($userlist->count())) {
             return;
@@ -117,7 +118,7 @@ class provider implements \core_privacy\local\metadata\provider,
     public static function delete_data_for_users(\core_privacy\local\request\approved_userlist $userlist) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $userlist=' . var_export($userlist, true));
+        $debug && Logger::log($fxn . '::Started with $userlist=' . var_export($userlist, true));
 
         if (empty($userlist->count())) {
             return;
@@ -135,7 +136,7 @@ class provider implements \core_privacy\local\metadata\provider,
 
         // Get IA participant data from the remote API.
         $participants = \block_integrityadvocate_get_participants_for_blockcontext($blockinstance->context);
-        $debug && ia_mu::log($fxn . '::Got count($participants)=' . (is_countable($participants) ? count($participants) : 0));
+        $debug && Logger::log($fxn . '::Got count($participants)=' . (is_countable($participants) ? count($participants) : 0));
         if (ia_u::is_empty($participants) || ia_u::is_empty($userlist) || ia_u::is_empty($userids = $userlist->get_userids())) {
             return;
         }
@@ -152,7 +153,7 @@ class provider implements \core_privacy\local\metadata\provider,
     public static function delete_data_for_all_users_in_context(\context $context) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $context=' . var_export($context, true));
+        $debug && Logger::log($fxn . '::Started with $context=' . var_export($context, true));
 
         if (!($context instanceof \context_module)) {
             return;
@@ -174,7 +175,7 @@ class provider implements \core_privacy\local\metadata\provider,
     public static function delete_data_for_user(approved_contextlist $contextlist) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && ia_mu::log($fxn . '::Started with $contextlist=' . var_export($contextlist, true));
+        $debug && Logger::log($fxn . '::Started with $contextlist=' . var_export($contextlist, true));
 
         if (empty($contextlist->count())) {
             return;
@@ -188,7 +189,7 @@ class provider implements \core_privacy\local\metadata\provider,
         foreach ($contextlist->get_contexts() as $context) {
             // Get IA participant data from the remote API.
             $participants = \block_integrityadvocate_get_participants_for_blockcontext($context);
-            $debug && ia_mu::log($fxn . '::Got count($participants)=' . (is_countable($participants) ? count($participants) : 0));
+            $debug && Logger::log($fxn . '::Got count($participants)=' . (is_countable($participants) ? count($participants) : 0));
             if (ia_u::is_empty($participants)) {
                 continue;
             }
