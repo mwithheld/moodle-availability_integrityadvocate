@@ -89,7 +89,7 @@ class frontend extends \core_availability\frontend {
             $activities = \block_integrityadvocate_get_course_ia_modules($course, array('visible' => 1, 'configured' => 1));
 
             if (!is_array($activities)) {
-                $debug && error_log($fxn . '::No activites in this course have block_integrityadvocate configured and visible');
+                $debug && error_log($fxn . '::No activities in this course have block_integrityadvocate configured and visible');
                 // Do not set any parameters.
                 $this->cachekey = $cachekey;
                 $this->cacheinitparams = array();
@@ -148,7 +148,7 @@ class frontend extends \core_availability\frontend {
         $params = $this->get_javascript_init_params($course, $cm, $section);
         $debug && error_log($fxn . '::Got params=' . var_export($params, true));
         if (empty($params)) {
-            error_log($fxn . '::No activites in this course have block_integrityadvocate configured and visible');
+            $debug && error_log($fxn . '::No activities in this course have block_integrityadvocate configured and visible');
             return false;
         }
 
