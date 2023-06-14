@@ -71,7 +71,7 @@ class frontend extends \core_availability\frontend {
     protected function get_javascript_init_params($course, \cm_info $cm = null, \section_info $section = null) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && error_log($fxn . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));
+        $debug && debugging($fxn . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));
 
         // Use cached result if available. The cache is just because we call it
         // twice (once from allow_add) so it's nice to avoid doing all the
@@ -79,7 +79,7 @@ class frontend extends \core_availability\frontend {
         $cachekey = ia_mu::get_cache_key($course->id . '_' . ($cm ? $cm->id : '') . '_' . ($section ? $section->id : ''));
         if ($debug || $cachekey !== $this->cachekey) {
             if (!availability_integrityadvocate_is_known_block_type()) {
-                $debug && error_log($fxn . '::block_integrityadvocate must be installed and visible');
+                $debug && debugging($fxn . '::block_integrityadvocate must be installed and visible');
                 // Do not set any parameters.
                 $this->cachekey = $cachekey;
                 $this->cacheinitparams = array();
@@ -89,7 +89,7 @@ class frontend extends \core_availability\frontend {
             $activities = \block_integrityadvocate_get_course_ia_modules($course, array('visible' => 1, 'configured' => 1));
 
             if (!is_array($activities)) {
-                $debug && error_log($fxn . '::No activities in this course have block_integrityadvocate configured and visible');
+                $debug && debugging($fxn . '::No activities in this course have block_integrityadvocate configured and visible');
                 // Do not set any parameters.
                 $this->cachekey = $cachekey;
                 $this->cacheinitparams = array();
@@ -142,19 +142,18 @@ class frontend extends \core_availability\frontend {
     protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
-        $debug && error_log($fxn . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));
+        $debug && debugging($fxn . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));
 
         // Check if there's at least one other module with completion info.
         $params = $this->get_javascript_init_params($course, $cm, $section);
-        $debug && error_log($fxn . '::Got params=' . var_export($params, true));
+        $debug && debugging($fxn . '::Got params=' . var_export($params, true));
         if (empty($params)) {
-            $debug && error_log($fxn . '::No activities in this course have block_integrityadvocate configured and visible');
+            $debug && debugging($fxn . '::No activities in this course have block_integrityadvocate configured and visible');
             return false;
         }
 
         $result = ((array) $params[0]) != false;
-        $debug && error_log($fxn . '::About to return $result=' . $result);
+        $debug && debugging($fxn . '::About to return $result=' . $result);
         return $result;
     }
-
 }

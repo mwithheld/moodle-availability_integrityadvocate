@@ -22,7 +22,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['cachedef_perrequest'] = 'Remember values during a single request';
-$string['description'] = 'Require IntegrityAdvocate proctor completion';
+$string['description'] = 'Require Integrity Advocate proctor completion';
 $string['error_selectcmid'] = 'You must select a module for the completion condition.';
 $string['label_cm'] = 'Module';
 $string['label_completion'] = 'Required IA validation status';
@@ -30,13 +30,13 @@ $string['label_validation_status'] = 'Required IA validation status';
 $string['missing'] = '(Missing module)';
 $string['option_invalid'] = 'must be marked invalid';
 $string['option_valid'] = 'must be marked valid';
-$string['pluginname'] = 'Restriction by IntegrityAdvocate';
+$string['pluginname'] = 'Restriction by Integrity Advocate';
 $string['requires_invalid'] = 'The IA result for module <strong>{$a}</strong> is marked invalid';
 $string['requires_valid'] = 'The IA result for module <strong>{$a}</strong> is valid';
-$string['title'] = 'IntegrityAdvocate';
+$string['title'] = 'Integrity Advocate';
 
 $string['privacy:metadata'] = 'This plugin stores no data in Moodle.  In order to integrate with a remote service, user data needs to be exchanged with that service.  See <a href="https://integrityadvocate.com/Home/Privacy?lang=en">Integrity Advocate Privacy</a> for more information.';
 $string['privacy:metadata:availability_integrityadvocate'] = 'This plugin stores no data in Moodle.  In order to integrate with a remote service, user data needs to be exchanged with that service.  See <a href="https://integrityadvocate.com/Home/Privacy?lang=en">Integrity Advocate Privacy</a> for more information.';
-$string['privacy:metadata:availability_integrityadvocate:tableexplanation'] = 'IntegrityAdvocate availability information is stored here.';
+$string['privacy:metadata:availability_integrityadvocate:tableexplanation'] = 'Integrity Advocate availability information is stored here.';
 $string['privacy:metadata:availability_integrityadvocate:cmid'] = 'Id number of the course module.';
 $string['privacy:metadata:availability_integrityadvocate:userid'] = 'Your database user id number.';
