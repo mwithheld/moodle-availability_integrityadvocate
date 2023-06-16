@@ -13,6 +13,7 @@ parameters:
   checkMissingIterableValueType: false
   # Dynamic properties emits warnings from PHP 8.2 onwards.
   checkDynamicProperties: true
+  # Do not report unused ignores.
   reportUnmatchedIgnoredErrors: false
   treatPhpDocTypesAsCertain: false
 
