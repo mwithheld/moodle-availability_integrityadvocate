@@ -33,7 +33,7 @@ jobs:
       - name: Move files into a subdir
         run: |
           mkdir -p /tmp/iaparent/integrityadvocate
-          rsync -av ${{ github.workspace }}/ /tmp/iaparent/integrityadvocate --exclude .git/ --exclude .github/ --exclude tests/
+          rsync -av ${{ github.workspace }}/ /tmp/iaparent/integrityadvocate --exclude .git/ --exclude .github/ --exclude tests/ --exclude .gitignore --exclude 
 
       # Ref https://github.com/marketplace/actions/zip-release .
       - name: Zip Release
@@ -46,7 +46,7 @@ jobs:
           # Working directory before zipping
           directory: /tmp/iaparent/
           # List of excluded files / directories
-          exclusions: '**/.git/ **/.github/ **/Gruntfile.js **/*.yml **/.shifter.json **/cypress.json **/phpstan.neon **/README_DEVELOPER.txt **/workspace.code-workspace **/screenshots/ **/tests/ **/vendor/bin/'
+          exclusions: '**/.git/* **/.github/* **/screenshots/* **/tests/* **/.shifter.json **/*.yml **/cypress.json **/Gruntfile.js **/phpstan.neon **/README_DEVELOPER.txt'
           # List of excluded files / directories with recursive wildcards (only applies on Windows with `zip` type)
           #recursive_exclusions: # optional, default is 
           # Provide any custom parameters to the command
