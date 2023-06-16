@@ -30,6 +30,11 @@ jobs:
         run: |
           echo "Built pluginver=${{steps.set_pluginver.outputs.pluginver}}"
       
+      - name: Move files into a subdir
+        run: |
+          mkdir -p /tmp/iaparent/integrityadvocate
+          rsync -av ${{ github.workspace }}/ /tmp/iaparent/integrityadvocate
+
       # Ref https://github.com/marketplace/actions/zip-release .
       - name: Zip Release
         uses: TheDoctor0/zip-release@0.7.1
@@ -39,9 +44,9 @@ jobs:
           # Base path for archive files
           #path: # optional, default is .
           # Working directory before zipping
-          #directory: # optional, default is .
+          directory: /tmp/iaparent/
           # List of excluded files / directories
-          exclusions: '*.git* *.github* /*node_modules/* Gruntfile.js *.yml .shifter.json cypress.json phpstan.neon README_DEVELOPER.txt workspace.code-workspace /screenshots/ */tests/ /vendor/bin/'
+          exclusions: '*/.git* */.github* /*node_modules/* */Gruntfile.js */*.yml */.shifter.json */cypress.json */phpstan.neon */README_DEVELOPER.txt */workspace.code-workspace */screenshots/ */tests/ */vendor/bin/'
           # List of excluded files / directories with recursive wildcards (only applies on Windows with `zip` type)
           #recursive_exclusions: # optional, default is 
           # Provide any custom parameters to the command
