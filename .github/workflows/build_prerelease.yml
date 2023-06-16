@@ -33,7 +33,7 @@ jobs:
       - name: Move files into a subdir
         run: |
           mkdir -p /tmp/iaparent/integrityadvocate
-          rsync -av ${{ github.workspace }}/ /tmp/iaparent/integrityadvocate
+          rsync -av ${{ github.workspace }}/ /tmp/iaparent/integrityadvocate --exclude .git/
 
       # Ref https://github.com/marketplace/actions/zip-release .
       - name: Zip Release
@@ -46,7 +46,7 @@ jobs:
           # Working directory before zipping
           directory: /tmp/iaparent/
           # List of excluded files / directories
-          exclusions: '*/.git* */.github* /*node_modules/* */Gruntfile.js */*.yml */.shifter.json */cypress.json */phpstan.neon */README_DEVELOPER.txt */workspace.code-workspace */screenshots/ */tests/ */vendor/bin/'
+          exclusions: '**/.git* .github* */Gruntfile.js */*.yml */.shifter.json */cypress.json */phpstan.neon */README_DEVELOPER.txt */workspace.code-workspace */screenshots/ */tests/ */vendor/bin/'
           # List of excluded files / directories with recursive wildcards (only applies on Windows with `zip` type)
           #recursive_exclusions: # optional, default is 
           # Provide any custom parameters to the command
@@ -58,7 +58,7 @@ jobs:
       - name: Attach zip to latest release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ github.event.repository.name }}.zip"
+          artifacts: "/tmp/iaparent/${{ github.event.repository.name }}.zip"
           tag: "${{steps.set_pluginver.outputs.pluginver}}"
           allowUpdates: true
           prerelease: true
