@@ -33,7 +33,7 @@ jobs:
       - name: Move files into a subdir
         run: |
           mkdir -p /tmp/iaparent/integrityadvocate
-          rsync -av ${{ github.workspace }}/ /tmp/iaparent/integrityadvocate --exclude .git/ --exclude .github/ --exclude tests/ --exclude .gitignore --exclude 
+          rsync -av ${{ github.workspace }}/ /tmp/iaparent/integrityadvocate --exclude .git/ --exclude .github/ --exclude tests/  --exclude screenshots/ --exclude .gitignore
 
       # Ref https://github.com/marketplace/actions/zip-release .
       - name: Zip Release
