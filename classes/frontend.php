@@ -82,7 +82,7 @@ class frontend extends \core_availability\frontend {
                 $debug && debugging($fxn . '::block_integrityadvocate must be installed and visible');
                 // Do not set any parameters.
                 $this->cachekey = $cachekey;
-                $this->cacheinitparams = array();
+                $this->cacheinitparams = [];
                 return $this->cacheinitparams;
             }
 
@@ -92,7 +92,7 @@ class frontend extends \core_availability\frontend {
                 $debug && debugging($fxn . '::No activities in this course have block_integrityadvocate configured and visible');
                 // Do not set any parameters.
                 $this->cachekey = $cachekey;
-                $this->cacheinitparams = array();
+                $this->cacheinitparams = [];
                 return $this->cacheinitparams;
             }
 
@@ -101,7 +101,7 @@ class frontend extends \core_availability\frontend {
             $coursecontext = \context_course::instance($course->id);
             $modinfo = get_fast_modinfo($course);
 
-            $cms = array();
+            $cms = [];
             foreach ($activities as $id => $othercm) {
                 if (gettype($othercm) !== 'cm_info') {
                     $othercm = $modinfo->get_cm($othercm['context']->instanceid);

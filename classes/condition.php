@@ -53,7 +53,7 @@ class condition extends \core_availability\condition {
     protected $expectedstatus;
 
     /** @var array Array of modules used in these conditions for course */
-    protected static $modsusedincondition = array();
+    protected static $modsusedincondition = [];
 
     /**
      * Retrieve any necessary data from the $structure here. The
@@ -391,7 +391,7 @@ class condition extends \core_availability\condition {
         if (!array_key_exists($course->id, self::$modsusedincondition)) {
             // We don't have data for this course, build it.
             $modinfo = get_fast_modinfo($course);
-            self::$modsusedincondition[$course->id] = array();
+            self::$modsusedincondition[$course->id] = [];
 
             // Activities.
             foreach ($modinfo->cms as $othercm) {
@@ -424,7 +424,7 @@ class condition extends \core_availability\condition {
      * Wipes the static cache of modules used in a condition (for unit testing).
      */
     public static function wipe_static_cache() {
-        self::$modsusedincondition = array();
+        self::$modsusedincondition = [];
     }
 
     /**
