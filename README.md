@@ -5,13 +5,9 @@ Moodle proctoring and identity verification brought to you by [Integrity Advocat
 
 Integrity Advocate is for online proctoring, identity verification and participation monitoring. You can use it to confirm learner identity, to ensure learner participation during course viewing and/or as an online exam proctor. Integrity Advocate is activated by the learner accepting a privacy policy, participation rules (customizable), granting access to their webcam/mic as well as to the monitoring of their screen activity (optional).
 
-Use of this plugin requires purchasing a paid service - please visit [Integrity Advocate](https://www.integrityadvocate.com/partners/moodle) to get the credentials needed to be able to use this plugin.
+This plugin, [Integrity Advocate restrict access](https://moodle.org/plugins/availability_integrityadvocate) can be added to a Moodle activity and prevents access to activities and resources depending on the Integrity Advocate results in another activity. See also [What are activity restrictions?](https://docs.moodle.org/38/en/Using_restrict_access).
 
-The Integrity Advocate plugins allow Moodle to show a proctoring interface to students, interact with the Integrity Advocate service, and show monitoring results to instructors.
-
-The [Integrity Advocate block plugin](https://moodle.org/plugins/block_integrityadvocate) can be added to Moodle activities and makes the Integrity Advocate proctoring interface show up for students, and gives instructors a way to view Integrity Advocate results. See also [What are Moodle blocks?](https://docs.moodle.org/en/Blocks)
-
-The [Integrity Advocate restrict access plugin](https://moodle.org/plugins/availability_integrityadvocate) can be added to a Moodle activity and prevents access to activities and resources depending on the Integrity Advocate results in another activity. It requires the [Integrity Advocate block plugin](https://moodle.org/plugins/block_integrityadvocate). See also [What are activity restrictions?](https://docs.moodle.org/38/en/Using_restrict_access)
+This plugin *requires* the paid service-plugin, [Integrity Advocate block](https://moodle.org/plugins/block_integrityadvocate).
 
 Support
 -------
@@ -23,40 +19,30 @@ A nice feature is that the Integrity Advocate App will automatically change its 
 Bugs / Issue Tracker
 --------------------
 
-We welcome reports of bugs, code contributions via the Bitbucket repos for [block\_integrityadvocate](https://bitbucket.org/mwebv/moodle-block_integrityadvocate/issues) and [availability\_integrityadvocate](https://bitbucket.org/mwebv/moodle-availability_integrityadvocate/issues).
+We welcome reports of bugs, code contributions via the repos for [block\_integrityadvocate](https://bitbucket.org/mwebv/moodle-block_integrityadvocate/issues) and [availability\_integrityadvocate](https://github.com/mwithheld/moodle-availability_integrityadvocate/issues).
 
 Any functionality related inquiries can be directed to [admin@integrityadvocate.com](mailto:a%64%6d%69n@%69%6e%74e%67%72%69%74ya%64%76%6f%63a%74e%2eco%6d)
 
 Privacy
 -------
 
-This plugin does not store any data in Moodle. In order to function properly, this plugin sends data to the Integrity Advocate API. This data includes:
-
-*   User: full name, email, Moodle user id number;
-*   Enrolment: course-module id;
-*   Video session: identification card image, session start, session end, video of the user completing the activity;
-*   Override: override date, overrider full name, override reason, override status.
-
-This information is sent using 256-bit encryption (the same used by major financial institutions), meaning your data is kept safe and secure. Integrity Advocate also restricts access by insecure web browsers to ensure data security.
+This plugin (moodle-availability_integrityadvocate) does not store any data, does not send any data to any API, and does not require any subscription.
 
 Please see user [Integrity Advocate Privacy](https://www.integrityadvocate.com/privacy-policy-for-end-users) statement for more information. The full privacy policy details and security standards can be provided upon request.
 
 Requirements for installation
 -----------------------------
 
-*   Purchase an API key and App ID from [Integrity Advocate](https://www.integrityadvocate.com/partners/moodle).
+*   This plugin *requires* the paid-service plugin, [Integrity Advocate block](https://moodle.org/plugins/block_integrityadvocate).
 *   PHP 7.2 or higher - see [Moodle PHP doc](https://docs.moodle.org/35/en/PHP).  
-    
 *   Moodle 3.5 and above - see [What version of Moodle am I using?](https://docs.moodle.org/en/Moodle_version#What_version_of_Moodle_am_I_using)
 *   You need administrator privileges in your Moodle instance.
 *   Completion must be enabled at the site level and course level - see [Enabling course completion](https://docs.moodle.org/en/Course_completion_settings#Enabling_course_completion).
-*   Moodle cron must be running often, ideally every minute or two - see [Setting up cron on your system](https://docs.moodle.org/en/Cron#Setting_up_cron_on_your_system).
 
 Requirements for students
 -------------------------
 
-*   A camera-equipped device with an updated browser (all common browser types supported). An additional benefit is that Integrity Advocate will work on all device types that the Moodle content will work on (laptop, tablet, phone etc).
-*   Disable all browser ad blockers (e.g. uBlock) and privacy plugins (e.g. Privacy Badger) - see [How to Disable AdBlock on Chrome, Safari, Firefox, Edge or Opera](https://www.softwarehow.com/disable-adblock/).
+Please see the requirements for the [Integrity Advocate block](https://moodle.org/plugins/block_integrityadvocate).
 
 Download
 --------
