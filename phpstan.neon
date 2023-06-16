@@ -22,6 +22,7 @@ parameters:
     - '#^Left side of && is always false.$#'
     # This class does not seem to be defined anywhere in Moodle, but it is used like this.
     - '#^Call to static method instance\(\) on an unknown class context_course\.$#'
+
     -
       message: '#^Variable \$CFG might not be defined\.$#'
       paths:
