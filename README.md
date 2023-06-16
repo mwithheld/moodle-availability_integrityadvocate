@@ -33,7 +33,7 @@ Please see user [Integrity Advocate Privacy](https://www.integrityadvocate.com/p
 Requirements for installation
 -----------------------------
 
-*   This plugin *requires* the paid-service plugin, [Integrity Advocate block](https://moodle.org/plugins/block_integrityadvocate).
+*   This plugin *requires* the paid-service plugin, [Integrity Advocate block](https://moodle.org/plugins/block_integrityadvocate) - please see [those requirements](https://github.com/mwithheld/moodle-block_integrityadvocate/blob/master/README.md#requirements-for-installation).
 *   PHP 7.2 or higher - see [Moodle PHP doc](https://docs.moodle.org/35/en/PHP).  
 *   Moodle 3.5 and above - see [What version of Moodle am I using?](https://docs.moodle.org/en/Moodle_version#What_version_of_Moodle_am_I_using)
 *   You need administrator privileges in your Moodle instance.
@@ -64,6 +64,6 @@ Useful links
 
 *   [More documentation on this plugin](https://iapartners.zendesk.com/hc/en-ca/sections/360012118873-Moodle)
 *   [Website URL](https://www.integrityadvocate.com)
-*   [Source control URL](https://bitbucket.org/mwebv/moodle-availability_integrityadvocate/src)
-*   [Bug tracker](https://bitbucket.org/mwebv/moodle-availability_integrityadvocate/issues?status=new&status=open)
+*   [Source control URL](https://github.com/mwithheld/moodle-availability_integrityadvocate)
+*   [Bug tracker](https://github.com/mwithheld/moodle-availability_integrityadvocate/issues)
 *   [Accessibility management reading](https://www.integrityadvocate.com/blog/three-ways-your-online-proctoring-software-isnt-meeting-accessibility-requirements)
