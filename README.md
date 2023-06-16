@@ -54,7 +54,6 @@ The [block](https://moodle.org/plugins/block_integrityadvocate) can be added to 
 The optional [availability restriction (condition)](https://moodle.org/plugins/availability_integrityadvocate) prevents access to a course module depending on the Integrity Advocate results in another module.
 
 Potential privacy issues  
-
 ---------------------------
 
 Integrity Advocate, when appropriately applied, can mitigate the majority of the privacy concerns that organizations can face when using monitoring technology. Please see the Privacy section in the Description and/or contact [Integrity Advocate](https://www.integrityadvocate.com/partners/moodle) for more details.
