@@ -77,6 +77,7 @@ class frontend extends \core_availability\frontend {
         // twice (once from allow_add) so it's nice to avoid doing all the
         // print_string calls twice.
         $cachekey = ia_mu::get_cache_key($course->id . '_' . ($cm ? $cm->id : '') . '_' . ($section ? $section->id : ''));
+        // @phpstan-ignore-next-line booleanOr.alwaysFalse .
         if ($debug || $cachekey !== $this->cachekey) {
             if (!availability_integrityadvocate_is_known_block_type()) {
                 $debug && debugging($fxn . '::block_integrityadvocate must be installed and visible');
@@ -134,7 +135,7 @@ class frontend extends \core_availability\frontend {
      * groupings on the course. This helps to simplify the user interface.
      * If you don't include this function, it will appear.
      *
-     * @param stdClass $course The course to add
+     * @param \stdClass $course The course to add
      * @param \cm_info $cm Optional CourseModule info
      * @param \section_info $section Optional Section info
      * @return boolean True if the condition can be added.

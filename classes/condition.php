@@ -104,7 +104,7 @@ class condition extends \core_availability\condition {
     /**
      * Save back the data into a plain array similar to $structure above.
      *
-     * @return stdClass A completion object
+     * @return \stdClass A completion object
      */
     public function save() {
         $debug = false;
@@ -125,7 +125,7 @@ class condition extends \core_availability\condition {
      *
      * @param int $cmid Course-module id of other activity
      * @param int $expectedstatus Expected completion value (COMPLETION_xx)
-     * @return stdClass Object representing condition
+     * @return \stdClass Object representing condition
      */
     public static function get_json($cmid, $expectedstatus) {
         return (object) array('type' => INTEGRITYADVOCATE_SHORTNAME, 'cm' => (int) $cmid, 'e' => (int) $expectedstatus);
@@ -147,7 +147,7 @@ class condition extends \core_availability\condition {
      * so that the information displayed to users makes sense.
      *
      * @param bool $not Set true if we are inverting the condition
-     * @param info $info Item we're checking
+     * @param \core_availability\info $info Item we're checking
      * @param bool $grabthelot Performance hint: if true, caches information
      *   required for all course-modules, to make the front page and similar
      *   pages work more quickly (works only for current user)
@@ -181,15 +181,18 @@ class condition extends \core_availability\condition {
             $allowoverridden = true;
         }
 
+        $modinfo = $info->get_modinfo();
+        if (empty($modinfo) || !isset($modinfo->cms)) {
+            $allowoverridden = false;
+        }
+
         if (is_null($allowoverridden)) {
             $modulecontext = $info->get_context();
-            if ($modulecontext->contextlevel !== CONTEXT_MODULE) {
+            if ($modulecontext->contextlevel !== \CONTEXT_MODULE) {
                 $msg = 'Called with invalid contextlevel=' . $modulecontext->contextlevel;
                 debugging($fxn . "::$msg");
                 throw new \Exception($msg);
             }
-
-            $modinfo = $info->get_modinfo();
 
             if (!array_key_exists($this->cmid, $modinfo->cms)) {
                 // If the cmid cannot be found, always return false regardless of the...
@@ -198,24 +201,24 @@ class condition extends \core_availability\condition {
             }
         }
 
+        $othercmid = -1;
         if (is_null($allowoverridden)) {
             // Get the IA data so we can decide whether to show the activity to the user.
-            $course = $modinfo->get_course();
-            $debug && debugging($fxn . '::Got $course->id=' . $course->id);
-
             $othercm = $modinfo->get_cm($this->cmid);
-            $debug && debugging($fxn . '::Got $othercm->id=' . $othercm->id . '; name=' . $othercm->name);
+            $othercmid = $othercm->id;
+            $debug && debugging($fxn . '::Got $othercmid=' . $othercmid . '; name=' . $othercm->name);
         }
 
+        $allow = false;
         if (is_null($allowoverridden)) {
             switch ($this->expectedstatus) {
                 case INTEGRITYADVOCATE_EXPECTED_STATUS_VALID:
                     $allow = \block_integrityadvocate\Api::is_status_valid($othercm->context, $userid);
-                    $debug && debugging($fxn . "::\$othercm={$othercm->id}; We require status=Valid, did it?=" . $allow);
+                    $debug && debugging($fxn . "::\$othercmid={$othercmid}; We require status=Valid, did it?=" . $allow);
                     break;
                 case INTEGRITYADVOCATE_EXPECTED_STATUS_INVALID:
                     $allow = \block_integrityadvocate\Api::is_status_invalid($othercm->context, $userid);
-                    $debug && debugging($fxn . "::\$othercm={$othercm->id}; We require status=Invalid, did it?=" . $allow);
+                    $debug && debugging($fxn . "::\$othercmid={$othercmid}; We require status=Invalid, did it?=" . $allow);
                     break;
                 default:
                     $msg = 'Invalid $this->expectedstatus=' . $this->expectedstatus;
@@ -236,7 +239,7 @@ class condition extends \core_availability\condition {
             throw new \Exception('Failed to set value in perrequest cache');
         }
 
-        $debug && debugging($fxn . "::\$othercm={$othercm->id}; About to return $allow=" . $allow);
+        $debug && debugging($fxn . "::\$othercmid={$othercmid}; About to return $allow=" . $allow);
         return $allow;
     }
 
@@ -259,7 +262,7 @@ class condition extends \core_availability\condition {
      *
      * @param bool $full Set true if this is the 'full information' view
      * @param bool $not Set true if we are inverting the condition
-     * @param info $info Item we're checking
+     * @param \core_availability\info $info Item we're checking
      * @return string Information string (for admin) about all restrictions on
      *   this item
      */
@@ -422,6 +425,8 @@ class condition extends \core_availability\condition {
 
     /**
      * Wipes the static cache of modules used in a condition (for unit testing).
+     *
+     * @return void.
      */
     public static function wipe_static_cache() {
         self::$modsusedincondition = [];
