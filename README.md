@@ -19,7 +19,7 @@ A nice feature is that the Integrity Advocate App will automatically change its 
 Bugs / Issue Tracker
 --------------------
 
-We welcome reports of bugs, code contributions via the repos for [block\_integrityadvocate](https://bitbucket.org/mwebv/moodle-block_integrityadvocate/issues) and [availability\_integrityadvocate](https://github.com/mwithheld/moodle-availability_integrityadvocate/issues).
+We welcome reports of bugs, code contributions via the repos for [block\_integrityadvocate](https://github.com/mwithheld/moodle-block_integrityadvocate) and [availability\_integrityadvocate](https://github.com/mwithheld/moodle-availability_integrityadvocate/issues).
 
 Any functionality related inquiries can be directed to [admin@integrityadvocate.com](mailto:a%64%6d%69n@%69%6e%74e%67%72%69%74ya%64%76%6f%63a%74e%2eco%6d)
 
