@@ -24,13 +24,7 @@
 
 namespace availability_integrityadvocate\privacy;
 
-use \core_privacy\local\metadata\collection;
-use \core_privacy\local\request\approved_contextlist;
-use \core_privacy\local\request\approved_userlist;
-use \core_privacy\local\request\contextlist;
-use \core_privacy\local\request\userlist;
-use block_integrityadvocate\MoodleUtility as ia_mu;
-use block_integrityadvocate\Utility as ia_u;
+use core_privacy\local\metadata\null_provider;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -42,7 +36,7 @@ require_once(dirname(__FILE__, 3) . '/locallib.php');
  */
 class provider implements
 // This plugin does not store any personal user data.
-\core_privacy\local\metadata\null_provider {
+null_provider {
 
     /**
      * Get the language string identifier with the component's language
