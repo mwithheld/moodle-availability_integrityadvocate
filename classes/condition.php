@@ -213,11 +213,21 @@ class condition extends \core_availability\condition {
         if (is_null($allowoverridden)) {
             switch ($this->expectedstatus) {
                 case INTEGRITYADVOCATE_EXPECTED_STATUS_VALID:
-                    $allow = \block_integrityadvocate\Api::is_status_valid($othercm->context, $userid);
+                    try {
+                        $allow = \block_integrityadvocate\Api::is_status_valid($othercm->context, $userid);
+                    } catch (\block_integrityadvocate\HttpException $ignored) {
+                        debugging($fxn . '::FAILED to get IA participant status. Ignore the exception so the page is not broken.', DEBUG_DEVELOPER);
+                        $allow = false;
+                    }
                     $debug && debugging($fxn . "::\$othercmid={$othercmid}; We require status=Valid, did it?=" . $allow);
                     break;
                 case INTEGRITYADVOCATE_EXPECTED_STATUS_INVALID:
-                    $allow = \block_integrityadvocate\Api::is_status_invalid($othercm->context, $userid);
+                    try {
+                        $allow = \block_integrityadvocate\Api::is_status_invalid($othercm->context, $userid);
+                    } catch (\block_integrityadvocate\HttpException $ignored) {
+                        debugging($fxn . '::FAILED to get IA participant status. Ignore the exception so the page is not broken.', DEBUG_DEVELOPER);
+                        $allow = false;
+                    }
                     $debug && debugging($fxn . "::\$othercmid={$othercmid}; We require status=Invalid, did it?=" . $allow);
                     break;
                 default:
