@@ -55,7 +55,7 @@ class frontend extends \core_availability\frontend {
      * @return Array of strings
      */
     protected function get_javascript_strings() {
-        return array('option_valid', 'option_invalid', 'label_cm', 'label_completion');
+        return ['option_valid', 'option_invalid', 'label_cm', 'label_completion'];
     }
 
     /**
@@ -68,7 +68,7 @@ class frontend extends \core_availability\frontend {
      * @param \section_info $section Section currently being edited (null if none)
      * @return array Array of parameters for the JavaScript function
      */
-    protected function get_javascript_init_params($course, \cm_info $cm = null, \section_info $section = null) {
+    protected function get_javascript_init_params($course, ?\cm_info $cm = null, ?\section_info $section = null) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && debugging($fxn . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));
@@ -77,7 +77,6 @@ class frontend extends \core_availability\frontend {
         // twice (once from allow_add) so it's nice to avoid doing all the
         // print_string calls twice.
         $cachekey = ia_mu::get_cache_key($course->id . '_' . ($cm ? $cm->id : '') . '_' . ($section ? $section->id : ''));
-        // @phpstan-ignore-next-line booleanOr.alwaysFalse .
         if ($debug || $cachekey !== $this->cachekey) {
             if (!availability_integrityadvocate_is_known_block_type()) {
                 $debug && debugging($fxn . '::block_integrityadvocate must be installed and visible');
@@ -87,7 +86,7 @@ class frontend extends \core_availability\frontend {
                 return $this->cacheinitparams;
             }
 
-            $activities = \block_integrityadvocate_get_course_ia_modules($course, array('visible' => 1, 'configured' => 1));
+            $activities = \block_integrityadvocate_get_course_ia_modules($course, ['visible' => 1, 'configured' => 1]);
 
             if (!is_array($activities)) {
                 $debug && debugging($fxn . '::No activities in this course have block_integrityadvocate configured and visible');
@@ -114,11 +113,11 @@ class frontend extends \core_availability\frontend {
                 }
 
                 // Add each course-module to the displayed list of choices.
-                $cms[] = (object) array(
+                $cms[] = (object) [
                             'id' => $othercm->id,
-                            'name' => format_string($othercm->name, true, array('context' => $coursecontext)),
+                            'name' => format_string($othercm->name, true, ['context' => $coursecontext]),
                             'completiongradeitemnumber' => $othercm->completiongradeitemnumber,
-                );
+                ];
             }
 
             $this->cachekey = $cachekey;
@@ -140,7 +139,7 @@ class frontend extends \core_availability\frontend {
      * @param \section_info $section Optional Section info
      * @return boolean True if the condition can be added.
      */
-    protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
+    protected function allow_add($course, ?\cm_info $cm = null, ?\section_info $section = null) {
         $debug = false;
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && debugging($fxn . '::Started with $course->id' . $course->id . '; cmid=' . (isset($cm->id) ? $cm->id : '') . '; $section=' . var_export($section, true));

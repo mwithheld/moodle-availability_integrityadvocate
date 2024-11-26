@@ -38,7 +38,7 @@ const INTEGRITYADVOCATE_AVAILABILITY_NAME = 'availability_integrityadvocate';
 function availability_integrityadvocate_is_known_block_type() {
     global $DB;
 
-    $count = $DB->count_records('block', array('visible' => 1, 'name' => 'integrityadvocate'));
+    $count = $DB->count_records('block', ['visible' => 1, 'name' => 'integrityadvocate']);
 
     return $count > 0;
 }

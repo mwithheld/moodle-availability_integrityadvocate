@@ -23,13 +23,13 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$definitions = array(
-    'perrequest' => array(
+$definitions = [
+    'perrequest' => [
         'mode' => cache_store::MODE_REQUEST,
         'simplekeys' => true,
         'simpledata' => true,
         'staticacceleration' => true,
         'staticaccelerationsize' => 5,
         'canuselocalstore' => true,
-    ),
-);
+    ],
+];

@@ -116,7 +116,7 @@ class condition extends \core_availability\condition {
         $fxn = __CLASS__ . '::' . __FUNCTION__;
         $debug && \debugging($fxn . '::Started');
 
-        $data = (object) array('type' => INTEGRITYADVOCATE_SHORTNAME, 'cm' => $this->cmid, 'e' => $this->expectedstatus);
+        $data = (object) ['type' => INTEGRITYADVOCATE_SHORTNAME, 'cm' => $this->cmid, 'e' => $this->expectedstatus];
         $debug && \debugging($fxn . '::About to return $data=' . var_export($data, true));
 
         return $data;
@@ -133,7 +133,7 @@ class condition extends \core_availability\condition {
      * @return \stdClass Object representing condition
      */
     public static function get_json($cmid, $expectedstatus) {
-        return (object) array('type' => INTEGRITYADVOCATE_SHORTNAME, 'cm' => (int) $cmid, 'e' => (int) $expectedstatus);
+        return (object) ['type' => INTEGRITYADVOCATE_SHORTNAME, 'cm' => (int) $cmid, 'e' => (int) $expectedstatus];
     }
 
     /**
