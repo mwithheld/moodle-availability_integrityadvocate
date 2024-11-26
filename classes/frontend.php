@@ -117,7 +117,7 @@ class frontend extends \core_availability\frontend {
                 $cms[] = (object) array(
                             'id' => $othercm->id,
                             'name' => format_string($othercm->name, true, array('context' => $coursecontext)),
-                            'completiongradeitemnumber' => $othercm->completiongradeitemnumber
+                            'completiongradeitemnumber' => $othercm->completiongradeitemnumber,
                 );
             }
 
