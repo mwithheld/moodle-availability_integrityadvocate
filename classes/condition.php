@@ -481,6 +481,12 @@ class condition extends \core_availability\condition {
         }
     }
 
+    /**
+     * Show an error to the end-user.
+     *
+     * @param string $msg Message to display.
+     * @return void.
+     */
     private static function notify_user(string $msg) {
         global $PAGE;
         $PAGE->requires->js_call_amd('core/notification', 'addNotification', [[
