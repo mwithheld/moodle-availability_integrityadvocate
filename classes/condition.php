@@ -187,10 +187,7 @@ class condition extends \core_availability\condition {
             $allowoverridden = true;
         }
 
-        list($selfcmid, $selfsectionid) = $this->get_selfids($info);
         $modinfo = $info->get_modinfo();
-        $debug && \debugging($fxn . '::Got cmid=' . $this->cmid . '; selfcmid=' . $selfcmid . '; selfsectionid=' . $selfsectionid);
-
         if (empty($modinfo) || !isset($modinfo->cms)) {
             $allowoverridden = false;
         }
@@ -268,34 +265,6 @@ class condition extends \core_availability\condition {
 
         $debug && \debugging($fxn . "::\$othercmid={$othercmid}; About to return $allow=" . $allow);
         return $allow;
-    }
-
-    /**
-     * Return current item IDs (cmid and sectionid).
-     * Copied from Moodle 3.9 availability/condition/completion/classes/condition.php.
-     *
-     * @param info $info
-     * @return int[] with [0] => cmid/null, [1] => sectionid/null
-     */
-    public function get_selfids(info $info): array {
-        if (isset($this->selfids)) {
-            return $this->selfids;
-        }
-        if ($info instanceof info_module) {
-            $cminfo = $info->get_course_module();
-            if (!empty($cminfo->id)) {
-                $this->selfids = [$cminfo->id, null];
-                return $this->selfids;
-            }
-        }
-        if ($info instanceof info_section) {
-            $section = $info->get_section();
-            if (!empty($section->id)) {
-                $this->selfids = [null, $section->id];
-                return $this->selfids;
-            }
-        }
-        return [null, null];
     }
 
     /**
