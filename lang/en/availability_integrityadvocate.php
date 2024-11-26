@@ -35,6 +35,8 @@ $string['requires_invalid'] = 'The IA result for module <strong>{$a}</strong> is
 $string['requires_valid'] = 'The IA result for module <strong>{$a}</strong> is valid';
 $string['title'] = 'Integrity Advocate';
 
+$string['error_ia_status_request'] = 'Could not get the remote Integrity Advocate status. The affected restricted activities are forced to "Not available".';
+
 $string['privacy:metadata'] = 'This plugin stores no data in Moodle.  In order to integrate with a remote service, user data needs to be exchanged with that service.  See <a href="https://integrityadvocate.com/Home/Privacy?lang=en">Integrity Advocate Privacy</a> for more information.';
 $string['privacy:metadata:availability_integrityadvocate'] = 'This plugin stores no data in Moodle.  In order to integrate with a remote service, user data needs to be exchanged with that service.  See <a href="https://integrityadvocate.com/Home/Privacy?lang=en">Integrity Advocate Privacy</a> for more information.';
 $string['privacy:metadata:availability_integrityadvocate:tableexplanation'] = 'Integrity Advocate availability information is stored here.';
