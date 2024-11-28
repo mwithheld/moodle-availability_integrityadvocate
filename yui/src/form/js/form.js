@@ -17,7 +17,7 @@ M.availability_integrityadvocate.form = Y.Object(M.core_availability.plugin);
  * @method initInner
  * @param {Array} cms Array of objects containing cmid => name
  */
-M.availability_integrityadvocate.form.initInner = function(cms) {
+M.availability_integrityadvocate.form.initInner = function (cms) {
     this.cms = cms;
 };
 
@@ -29,7 +29,7 @@ M.availability_integrityadvocate.form.initInner = function(cms) {
  * @param {string} json
  * @return {Object} YUI node representing the HTML for the plugin controls
  */
-M.availability_integrityadvocate.form.getNode = function(json) {
+M.availability_integrityadvocate.form.getNode = function (json) {
     var debug = true;
     debug && window.console.log('M.availability_integrityadvocate.form.getNode' + '::Started with json=', json);
 
@@ -39,10 +39,10 @@ M.availability_integrityadvocate.form.getNode = function(json) {
 
     // Create HTML structure.
     var html = '<span class="col-form-label p-r-1"> ' + M.util.get_string('title', 'availability_integrityadvocate') + '</span>' +
-            ' <span class="availability-group form-group"><label>' +
-            '<span class="accesshide">' + M.util.get_string('label_cm', 'availability_integrityadvocate') + ' </span>' +
-            '<select class="custom-select" name="cm" title="' + M.util.get_string('label_cm', 'availability_integrityadvocate') + '">' +
-            '<option value="0">' + M.util.get_string('choosedots', 'moodle') + '</option>';
+        ' <span class="availability-group form-group"><label>' +
+        '<span class="accesshide">' + M.util.get_string('label_cm', 'availability_integrityadvocate') + ' </span>' +
+        '<select class="custom-select" name="cm" title="' + M.util.get_string('label_cm', 'availability_integrityadvocate') + '">' +
+        '<option value="0">' + M.util.get_string('choosedots', 'moodle') + '</option>';
     var cm;
     for (var i = 0; i < this.cms.length; i++) {
         cm = this.cms[i];
@@ -50,17 +50,17 @@ M.availability_integrityadvocate.form.getNode = function(json) {
         html += '<option value="' + cm.id + '">' + cm.name + '</option>';
     }
     html += '</select></label> <label><span class="accesshide">' +
-            M.util.get_string('label_completion', 'availability_integrityadvocate') +
-            ' </span><select class="custom-select" ' +
-            'name="e" title="' + M.util.get_string('label_completion', 'availability_integrityadvocate') + '">' +
-            '<option value="1">' + M.util.get_string('option_valid', 'availability_integrityadvocate') + '</option>' +
-            '<option value="0">' + M.util.get_string('option_invalid', 'availability_integrityadvocate') + '</option>' +
-            '</select></label></span>';
+        M.util.get_string('label_completion', 'availability_integrityadvocate') +
+        ' </span><select class="custom-select" ' +
+        'name="e" title="' + M.util.get_string('label_completion', 'availability_integrityadvocate') + '">' +
+        '<option value="1">' + M.util.get_string('option_valid', 'availability_integrityadvocate') + '</option>' +
+        '<option value="0">' + M.util.get_string('option_invalid', 'availability_integrityadvocate') + '</option>' +
+        '</select></label></span>';
     var node = Y.Node.create('<span class="form-inline">' + html + '</span>');
 
     // Set initial values.
     if (json.cm !== undefined &&
-            node.one('select[name=cm] > option[value=' + json.cm + ']')) {
+        node.one('select[name=cm] > option[value=' + json.cm + ']')) {
         node.one('select[name=cm]').set('value', '' + json.cm);
     }
     if (json.e !== undefined) {
@@ -71,7 +71,7 @@ M.availability_integrityadvocate.form.getNode = function(json) {
     if (!M.availability_integrityadvocate.form.addedEvents) {
         M.availability_integrityadvocate.form.addedEvents = true;
         var root = Y.one('.availability-field');
-        root.delegate('change', function() {
+        root.delegate('change', function () {
             // The key point is this update call. This call will update
             // the JSON data in the hidden field in the form, so that it
             // includes the new value of the checkbox.
@@ -95,7 +95,7 @@ M.availability_integrityadvocate.form.getNode = function(json) {
  * @param {type} node
  * @return {undefined}
  */
-M.availability_integrityadvocate.form.fillValue = function(value, node) {
+M.availability_integrityadvocate.form.fillValue = function (value, node) {
     var debug = true;
     debug && window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Started with value=', value);
     debug && window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Started with node=', node);
@@ -117,7 +117,7 @@ M.availability_integrityadvocate.form.fillValue = function(value, node) {
  * @param {type} node
  * @return {undefined}
  */
-M.availability_integrityadvocate.form.fillErrors = function(errors, node) {
+M.availability_integrityadvocate.form.fillErrors = function (errors, node) {
     var debug = true;
     debug && window.console.log('M.availability_integrityadvocate.form.fillErrors' + '::Started with errors=', errors);
 
