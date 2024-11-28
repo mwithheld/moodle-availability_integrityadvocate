@@ -27,7 +27,7 @@ M.availability_integrityadvocate.form.initInner = function(cms) {
  * to return a YUI node representing the HTML for the plugin controls.
  *
  * @param {string} json
- * @return {Object} YUI node representing the HTML for the plugin controls
+ * @return {Y.Node} YUI node representing the HTML for the plugin controls
  */
 M.availability_integrityadvocate.form.getNode = function(json) {
     var debug = true;
@@ -91,9 +91,8 @@ M.availability_integrityadvocate.form.getNode = function(json) {
  * with the structure used in the __construct and save functions
  * within condition.php.
  *
- * @param {type} value
- * @param {type} node
- * @return {undefined}
+ * @param {Object} value Value object (to be written to)
+ * @param {Y.Node} node YUI node (same one returned from getNode)
  */
 M.availability_integrityadvocate.form.fillValue = function(value, node) {
     var debug = true;
@@ -113,9 +112,8 @@ M.availability_integrityadvocate.form.fillValue = function(value, node) {
  * user saves the form with an error still in place, they'll see
  * the actual error text.
  *
- * @param {type} errors
- * @param {type} node
- * @return {undefined}
+ * @param {Array} errors Array of errors (push new errors here)
+ * @param {Y.Node} node YUI node (same one returned from getNode)
  */
 M.availability_integrityadvocate.form.fillErrors = function(errors, node) {
     var debug = true;
