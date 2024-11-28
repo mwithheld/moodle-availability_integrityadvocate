@@ -29,15 +29,15 @@ M.availability_integrityadvocate.form.initInner = function(cms) {
  * to return a YUI node representing the HTML for the plugin controls.
  *
  * @param {string} json
- * @return {Object} YUI node representing the HTML for the plugin controls
+ * @return {Y.Node} YUI node representing the HTML for the plugin controls
  */
 M.availability_integrityadvocate.form.getNode = function(json) {
-    var debug = true;
-    debug && window.console.log('M.availability_integrityadvocate.form.getNode' + '::Started with json=', json);
-
-    if (this.cms === undefined || this.cms.constructor !== Array) {
-        this.cms = [];
+    var debug = false;
+    if (debug) {
+        window.console.log('M.availability_integrityadvocate.form.getNode' + '::Started with json=', json);
     }
+
+    this.cms = Array.isArray(this.cms) ? this.cms : [];
 
     // Create HTML structure.
     var html = '<span class="col-form-label p-r-1"> ' + M.util.get_string('title', 'availability_integrityadvocate') + '</span>' +
@@ -93,19 +93,22 @@ M.availability_integrityadvocate.form.getNode = function(json) {
  * with the structure used in the __construct and save functions
  * within condition.php.
  *
- * @param {type} value
- * @param {type} node
- * @return {undefined}
+ * @param {Object} value Value object (to be written to)
+ * @param {Y.Node} node YUI node (same one returned from getNode)
  */
 M.availability_integrityadvocate.form.fillValue = function(value, node) {
-    var debug = true;
-    debug && window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Started with value=', value);
-    debug && window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Started with node=', node);
+    var debug = false;
+    if (debug) {
+        window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Started with value=', value);
+        window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Started with node=', node);
+    }
 
     value.cm = parseInt(node.one('select[name=cm]').get('value'), 10);
     value.e = parseInt(node.one('select[name=e]').get('value'), 10);
 
-    debug && window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Finished with cm=' + value.cm + '; e=' + value.e);
+    if (debug) {
+        window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Finished with cm=' + value.cm + '; e=' + value.e);
+    }
 };
 
 /**
@@ -115,23 +118,30 @@ M.availability_integrityadvocate.form.fillValue = function(value, node) {
  * user saves the form with an error still in place, they'll see
  * the actual error text.
  *
- * @param {type} errors
- * @param {type} node
- * @return {undefined}
+ * @param {Array} errors Array of errors (push new errors here)
+ * @param {Y.Node} node YUI node (same one returned from getNode)
  */
 M.availability_integrityadvocate.form.fillErrors = function(errors, node) {
-    var debug = true;
-    debug && window.console.log('M.availability_integrityadvocate.form.fillErrors' + '::Started with errors=', errors);
+    var debug = false;
+    if (debug) {
+        window.console.log('M.availability_integrityadvocate.form.fillErrors' + '::Started with errors=', errors);
+    }
 
     var cmid = parseInt(node.one('select[name=cm]').get('value'), 10);
     if (cmid === 0) {
-        debug && window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Missing cmid');
+        if (debug) {
+            window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Missing cmid');
+        }
         errors.push('availability_integrityadvocate:error_selectcmid');
     }
 
     var e = parseInt(node.one('select[name=e]').get('value'), 10);
-    debug && window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Got value for e=', e);
-    debug && window.console.log('M.availability_integrityadvocate.form.fillErrors' + '::Finished');
+    if (debug) {
+        window.console.log('M.availability_integrityadvocate.form.fillValue' + '::Got value for e=', e);
+        window.console.log('M.availability_integrityadvocate.form.fillErrors' + '::Finished');
+    }
 };
 
-}, '@VERSION@', {"requires": ["base", "node", "event", "moodle-core_availability-form"]});    
+
+
+}, '@VERSION@', {"requires": ["base", "node", "event", "moodle-core_availability-form"]});
