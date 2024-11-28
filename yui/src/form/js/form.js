@@ -33,9 +33,7 @@ M.availability_integrityadvocate.form.getNode = function(json) {
     var debug = true;
     debug && window.console.log('M.availability_integrityadvocate.form.getNode' + '::Started with json=', json);
 
-    if (this.cms === undefined || this.cms.constructor !== Array) {
-        this.cms = [];
-    }
+    this.cms = Array.isArray(this.cms) ? this.cms : [];
 
     // Create HTML structure.
     var html = '<span class="col-form-label p-r-1"> ' + M.util.get_string('title', 'availability_integrityadvocate') + '</span>' +
