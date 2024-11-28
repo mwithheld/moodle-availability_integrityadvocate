@@ -4,6 +4,8 @@ module.exports = {
         'no-console': 'off',
         'max-len': 'off',
         // I would like to have this rule on, but have one variable that I want mixed case.
-        'camelcase': 'off'
+        'camelcase': 'off',
+        // Allow code like: debug && window.console().
+        "no-unused-expressions": ["error", { "allowShortCircuit": true }]
     }
 };
