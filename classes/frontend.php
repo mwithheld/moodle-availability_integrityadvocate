@@ -64,8 +64,8 @@ class frontend extends \core_availability\frontend {
      * Default returns no parameters.
      *
      * @param \stdClass $course Course object
-     * @param \cm_info $cm Course-module currently being edited (null if none)
-     * @param \section_info $section Section currently being edited (null if none)
+     * @param \cm_info|null $cm Course-module currently being edited (null if none)
+     * @param \section_info|null $section Section currently being edited (null if none)
      * @return array Array of parameters for the JavaScript function
      */
     protected function get_javascript_init_params($course, ?\cm_info $cm = null, ?\section_info $section = null) {
@@ -135,8 +135,8 @@ class frontend extends \core_availability\frontend {
      * If you don't include this function, it will appear.
      *
      * @param \stdClass $course The course to add
-     * @param \cm_info $cm Optional CourseModule info
-     * @param \section_info $section Optional Section info
+     * @param \cm_info|null $cm Optional CourseModule info
+     * @param \section_info|null $section Optional Section info
      * @return boolean True if the condition can be added.
      */
     protected function allow_add($course, ?\cm_info $cm = null, ?\section_info $section = null) {
