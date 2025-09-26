@@ -35,18 +35,15 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
 
     strategy:
-        fail-fast: false
-        matrix:
-            # php: ['7.4', '8.3']
-            # moodle-branch: ['MOODLE_39_STABLE', 'MOODLE_405_STABLE']
-            # database: [mariadb] #pgsql,
-            include:
-                - php: '7.4'
-                  moodle-branch: 'MOODLE_39_STABLE'
-                  database: mariadb
-                - php: '8.3'
-                  moodle-branch: 'MOODLE_405_STABLE'
-                  database: mariadb
+      fail-fast: false
+      matrix:
+        include:
+            - php: '8.2'
+              moodle-branch: 'MOODLE_402_STABLE'
+              database: mariadb
+            - php: '8.4'
+              moodle-branch: 'MOODLE_500_STABLE'
+              database: mariadb  
 
     steps:
       - name: Check out repository code
