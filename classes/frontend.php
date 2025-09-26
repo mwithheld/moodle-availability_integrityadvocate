@@ -38,7 +38,6 @@ require_once(dirname(__FILE__, 2) . '/locallib.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class frontend extends \core_availability\frontend {
-
     /**
      * @var array Cached init parameters
      */
@@ -121,7 +120,7 @@ class frontend extends \core_availability\frontend {
             }
 
             $this->cachekey = $cachekey;
-            $this->cacheinitparams = array($cms);
+            $this->cacheinitparams = [$cms];
         }
 
         // Return the list of items to fill the activities dropdown.

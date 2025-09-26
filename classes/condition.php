@@ -48,7 +48,6 @@ require_once(dirname(__FILE__, 2) . '/locallib.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class condition extends \core_availability\condition {
-
     /** @var int ID of module that this depends on */
     protected $cmid;
 
@@ -94,7 +93,7 @@ class condition extends \core_availability\condition {
         if (
             isset($structure->e) && in_array(
                 $structure->e,
-                array(INTEGRITYADVOCATE_EXPECTED_STATUS_VALID, INTEGRITYADVOCATE_EXPECTED_STATUS_INVALID)
+                [INTEGRITYADVOCATE_EXPECTED_STATUS_VALID, INTEGRITYADVOCATE_EXPECTED_STATUS_INVALID],
             )
         ) {
             $this->expectedstatus = $structure->e;
@@ -387,7 +386,7 @@ class condition extends \core_availability\condition {
         $rec = \restore_dbops::get_backup_ids_record($restoreid, 'course_module', $this->cmid);
         if (!$rec || !$rec->newitemid) {
             // If we are on the same course (e.g. duplicate) then we can just use the existing one.
-            if ($DB->record_exists('course_modules', array('id' => $this->cmid, 'course' => $courseid))) {
+            if ($DB->record_exists('course_modules', ['id' => $this->cmid, 'course' => $courseid])) {
                 return false;
             }
             // Otherwise it's a warning.

@@ -33,11 +33,9 @@ require_once(dirname(__FILE__, 3) . '/locallib.php');
 
 /**
  * Privacy Subsystem for availability_integrityadvocate.
+ * This plugin does not store any personal user data.
  */
-class provider implements
-// This plugin does not store any personal user data.
-null_provider {
-
+class provider implements null_provider {
     /**
      * Get the language string identifier with the component's language
      * file to explain why this plugin stores no data.
