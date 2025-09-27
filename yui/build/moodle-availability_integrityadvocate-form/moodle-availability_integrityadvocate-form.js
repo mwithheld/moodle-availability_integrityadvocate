@@ -143,5 +143,4 @@ M.availability_integrityadvocate.form.fillErrors = function(errors, node) {
 };
 
 
-
 }, '@VERSION@', {"requires": ["base", "node", "event", "moodle-core_availability-form"]});

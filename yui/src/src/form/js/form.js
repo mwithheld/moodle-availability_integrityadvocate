@@ -1,5 +1,3 @@
-YUI.add('moodle-availability_integrityadvocate-form', function (Y, NAME) {
-
 /**
  * JavaScript for form editing completion conditions.
  *
@@ -141,6 +139,3 @@ M.availability_integrityadvocate.form.fillErrors = function(errors, node) {
         window.console.log('M.availability_integrityadvocate.form.fillErrors' + '::Finished');
     }
 };
-
-
-}, '@VERSION@', {"requires": ["base", "node", "event", "moodle-core_availability-form"]});
